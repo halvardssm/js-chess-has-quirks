@@ -8,7 +8,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.sendFile("splash.html", {root: "./public"});
+	res.send("hello world!")
+//   res.sendFile("splash.html", {root: "./public"});
 });
 router.get('/play', function(req, res, next) {
   res.sendFile("game.html", {root: "./public"});
