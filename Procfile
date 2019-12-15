@@ -1,1 +1,1 @@
-web: node src/app.js 5000
+web: node src/app.js
