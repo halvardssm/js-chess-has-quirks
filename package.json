@@ -2,7 +2,7 @@
   "name": "web-game",
   "version": "0.0.0",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/app.js 5000",
     "dev": "node src/app.js 3000"
   },
   "engines": {
