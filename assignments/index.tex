@@ -93,17 +93,170 @@
 	\section{}
 	The X-Cache is used to hasten the process of loading the website for the user. So instead of going to the original servers the clients request is caught by the Content Delivery Network and processed immediately.
 
-	
-
 	The Transfer-Encoding header specifies the form of encoding used to safely transfer the payload body to the user.
 
 	Transfer-Encoding is a hop-by-hop header, that is applied to a message between two nodes, not to a resource itself. Each segment of a multi-node connection can use different Transfer-Encoding values. If you want to compress data over the whole connection, use the end-to-end Content-Encoding header instead.
 
 	https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding
 
-
 	\section{}
 	A cache control describes information regarding the expiration of a the resources to that page. For example the timeout for that page due to inactivity.
 	
+	https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
 
+	\newpage
+	\section{}
+	\begin{lstlisting}[language=bash]
+	> telnet httpbin.org 80
+	Trying 54.172.95.6...
+	Connected to httpbin.org.
+	Escape character is '^]'.
+	> PUT /put HTTP/1.1
+	> host:httpbin.org
+	> Content-type:text/plain
+	> Content-length:12
+	>
+	> Hello World!
+	HTTP/1.1 200 OK
+	Access-Control-Allow-Credentials: true
+	Access-Control-Allow-Origin: *
+	Content-Type: application/json
+	Date: Sun, 15 Dec 2019 14:24:50 GMT
+	Referrer-Policy: no-referrer-when-downgrade
+	Server: nginx
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	X-XSS-Protection: 1; mode=block
+	Content-Length: 285
+	Connection: keep-alive
+
+	{
+	"args": {}, 
+	"data": "Hello World!", 
+	"files": {}, 
+	"form": {}, 
+	"headers": {
+		"Content-Length": "12", 
+		"Content-Type": "text/plain", 
+		"Host": "httpbin.org"
+	}, 
+	"json": null, 
+	"origin": "213.127.96.30, 213.127.96.30", 
+	"url": "https://httpbin.org/put"
+	}
+
+	> telnet httpbin.org 80
+	Trying 34.193.212.251...
+	Connected to httpbin.org.
+	Escape character is '^]'.
+	> PUT /myfile HTTP/1.1
+	> host:httpbin.org
+	> Content-type:text/plain
+	> Content-length:12
+	>
+	> Hello World!
+	HTTP/1.1 404 NOT FOUND
+	Access-Control-Allow-Credentials: true
+	Access-Control-Allow-Origin: *
+	Content-Type: text/html
+	Date: Sun, 15 Dec 2019 14:27:59 GMT
+	Referrer-Policy: no-referrer-when-downgrade
+	Server: nginx
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	X-XSS-Protection: 1; mode=block
+	Content-Length: 233
+	Connection: keep-alive
+
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+	<title>404 Not Found</title>
+	<h1>Not Found</h1>
+	<p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.</p>
+
+	> telnet httpbin.org 80
+	Trying 34.193.212.251...
+	Connected to httpbin.org.
+	Escape character is '^]'.
+	> PUT /put HTTP/1.1
+	> host:httpbin.org
+	> Content-type:text/plain
+	> Content-length:12
+	>
+	> Hello World
+	HTTP/1.1 200 OK
+	Access-Control-Allow-Credentials: true
+	Access-Control-Allow-Origin: *
+	Content-Type: application/json
+	Date: Sun, 15 Dec 2019 14:31:46 GMT
+	Referrer-Policy: no-referrer-when-downgrade
+	Server: nginx
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	X-XSS-Protection: 1; mode=block
+	Content-Length: 286
+	Connection: keep-alive
+
+	{
+	"args": {}, 
+	"data": "Hello World\r", 
+	"files": {}, 
+	"form": {}, 
+	"headers": {
+		"Content-Length": "12", 
+		"Content-Type": "text/plain", 
+		"Host": "httpbin.org"
+	}, 
+	"json": null, 
+	"origin": "213.127.96.30, 213.127.96.30", 
+	"url": "https://httpbin.org/put"
+	}
+	HTTP/1.1 400 BAD_REQUEST
+	Content-Length: 0
+	Connection: Close
+
+	Connection closed by foreign host.
+
+	> telnet httpbin.org 80
+	Trying 54.172.95.6...
+	Connected to httpbin.org.
+	Escape character is '^]'.
+	> PUT /put HTTP/1.1
+	> host:httpbin.org
+	> Content-type:text/plain
+	> Content-length:12
+	> 
+	> Hello World!!
+	HTTP/1.1 200 OK
+	Access-Control-Allow-Credentials: true
+	Access-Control-Allow-Origin: *
+	Content-Type: application/json
+	Date: Sun, 15 Dec 2019 14:33:54 GMT
+	Referrer-Policy: no-referrer-when-downgrade
+	Server: nginx
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	X-XSS-Protection: 1; mode=block
+	Content-Length: 285
+	Connection: keep-alive
+
+	{
+	"args": {}, 
+	"data": "Hello World!", 
+	"files": {}, 
+	"form": {}, 
+	"headers": {
+		"Content-Length": "12", 
+		"Content-Type": "text/plain", 
+		"Host": "httpbin.org"
+	}, 
+	"json": null, 
+	"origin": "213.127.96.30, 213.127.96.30", 
+	"url": "https://httpbin.org/put"
+	}
+	\end{lstlisting}
+
+	\newpage
+	\section{}
+
+	
 \end{document}
