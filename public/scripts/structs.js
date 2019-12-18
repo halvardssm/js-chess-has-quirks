@@ -28,8 +28,8 @@ class Position {
 class ChessPiece {
 	/**
 	 * 
-	 * @param {TYPES} type 
-	 * @param {COLOUR} colour 
+	 * @param {string} type 
+	 * @param {string} colour 
 	 * @param {Position} position 
 	 */
 	constructor(type, colour, position) {

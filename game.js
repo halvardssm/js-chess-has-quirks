@@ -1,4 +1,3 @@
-const structs = require('./public/scripts/structs')
 
 /* every game has two players, identified by their WebSocket */
 var game = function(gameID) {
@@ -10,34 +9,7 @@ var game = function(gameID) {
 	this.gameBoard = emptyGameBoard
 }
 
-const pieceMapper=(i,j)=>{
-	if(i === 7){
-		return new structs.ChessPiece(structs.piecesOrder[j], structs.COLOUR.black, new structs.Position(i,j))
-	} else if(i===6){
-		return new structs.ChessPiece(structs.TYPES.pawn, structs.COLOUR.black, new structs.Position(i,j))
-	} else if(i===1){
-		return new structs.ChessPiece(structs.TYPES.pawn, structs.COLOUR.white, new structs.Position(i,j))
-	} else if(i===0){
-		return new structs.ChessPiece(structs.piecesOrder[j], structs.COLOUR.white, new structs.Position(i,j))
-	}
-}
 
-/*
-*/
-const emptyGameBoard = () =>{
-	const canvas = document.getElementById('game-board')
-	const ctx = canvas.getContext('2d')
-	let height = canvas.style.height
-
-
-	
-		
-	const board = Array(8).map((el, i) => Array(8).map((square, j)=> {
-		return pieceMapper(i,j)
-	}))
-
-	console.log('BOARD:' + board)
-}
   
 /*
  * The game can be in a number of different states.
