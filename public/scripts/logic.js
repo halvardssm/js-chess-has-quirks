@@ -1,35 +1,35 @@
 const validateMove = (piece, end) => {
-    let start = new Position(piece.position.x, piece.position.y);
+	let start = new Position(piece.position.x, piece.position.y)
 
-    switch (piece.type) {
-        case TYPES.pawn:
-            pawnLogic(start, end) ? piece.move(end) : alert("Invalid move!")
-            break
+	switch (piece.type) {
+	case TYPES.pawn:
+		pawnLogic(start, end) ? piece.move(end) : alert('Invalid move!')
+		break
 
-        case TYPES.rook:
-            rookLogic(start, end) ? piece.move(end) : alert("Invalid Move!")
-            break
+	case TYPES.rook:
+		rookLogic(start, end) ? piece.move(end) : alert('Invalid Move!')
+		break
 
-        case TYPES.knight:
-            knightLogic(start, end) ? piece.move(end) : alert("Invalid move!")
-            break
+	case TYPES.knight:
+		knightLogic(start, end) ? piece.move(end) : alert('Invalid move!')
+		break
 
-        case TYPES.bishop:
-            bishopLogic(start, end) ? piece.move(end) : alert("Invalid move!")
-            break
+	case TYPES.bishop:
+		bishopLogic(start, end) ? piece.move(end) : alert('Invalid move!')
+		break
 
-        case TYPES.queen:
-            queenLogic(start, end) ? piece.move(end) : alert("Invalid move!")
-            break
+	case TYPES.queen:
+		queenLogic(start, end) ? piece.move(end) : alert('Invalid move!')
+		break
 
-        case TYPES.king:
-            kingLogic(start, end) ? piece.move(end) : alert("Invalid move!")
-            break
+	case TYPES.king:
+		kingLogic(start, end) ? piece.move(end) : alert('Invalid move!')
+		break
 
-        default:
-            alert("Invalid piece given")
-            break
-    }
+	default:
+		alert('Invalid piece given')
+		break
+	}
 }
 
 const pawnLogic = (start, end) => { }

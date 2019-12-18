@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js 3000"
+    "start": "node app.js 3000",
+    "lint": "eslint *.js public/**/*.js routes/**/*.js --fix"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
