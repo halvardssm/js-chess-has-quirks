@@ -1,4 +1,3 @@
-
 const TYPES = {
 	pawn: 'PAWN',
 	rook: 'ROOK',
@@ -16,6 +15,10 @@ const COLOUR = {
 Object.freeze(COLOUR)
 
 class Position {
+	/**
+	 * @param {number} x 
+	 * @param {number} y 
+	 */
 	constructor(x, y) {
 		this.x = x
 		this.y = y
@@ -23,6 +26,12 @@ class Position {
 }
 
 class ChessPiece {
+	/**
+	 * 
+	 * @param {TYPES} type 
+	 * @param {COLOUR} colour 
+	 * @param {Position} position 
+	 */
 	constructor(type, colour, position) {
 		this.type = type
 		this.colour = colour
@@ -35,8 +44,15 @@ class ChessPiece {
 	}
 }
 
-const piecesOrder = [TYPES.rook, TYPES.knight, TYPES.bishop,
-	TYPES.queen, TYPES.king, TYPES.bishop,
-	TYPES.knight, TYPES.rook]
+const piecesOrder = [
+	TYPES.rook,
+	TYPES.knight,
+	TYPES.bishop,
+	TYPES.queen,
+	TYPES.king,
+	TYPES.bishop,
+	TYPES.knight,
+	TYPES.rook
+]
 
-module.exports = {TYPES,COLOUR,Position,ChessPiece,piecesOrder}
+module.exports = { TYPES, COLOUR, Position, ChessPiece, piecesOrder }
