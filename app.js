@@ -66,7 +66,7 @@ wss.on("connection", function connection(ws) {
   /*
    * inform the client about its assigned player type
    */
-  con.send(playerType == "A" ? messages.S_PLAYER_A : messages.S_PLAYER_B);
+  con.send(playerType == "W" ? messages.S_PLAYER_W : messages.S_PLAYER_B);
 
   /*
    * client B receives the target word (if already available)
@@ -96,15 +96,14 @@ wss.on("connection", function connection(ws) {
     let oMsg = JSON.parse(message);
 
     let gameObj = websockets[con.id];
-    let isPlayerA = gameObj.playerA == con ? true : false;
+    let isPlayerW = gameObj.playerW == con ? true : false;
 
-    if (isPlayerA) {
+    if (isPlayerW) {
       /*
-       * player A cannot do a lot, just send the target word;
+       * player W cannot do a lot, just send the target word;
        * if player B is already available, send message to B
        */
       if (oMsg.type == messages.T_TARGET_WORD) {
-        gameObj.setWord(oMsg.data);
 
         if (gameObj.hasTwoConnectedPlayers()) {
           gameObj.playerB.send(message);
@@ -113,10 +112,10 @@ wss.on("connection", function connection(ws) {
     } else {
       /*
        * player B can make a guess;
-       * this guess is forwarded to A
+       * this guess is forwarded to W
        */
       if (oMsg.type == messages.T_MAKE_A_GUESS) {
-        gameObj.playerA.send(message);
+        gameObj.playerW.send(message);
         gameObj.setStatus("CHAR GUESSED");
       }
 
@@ -153,10 +152,10 @@ wss.on("connection", function connection(ws) {
          * close it
          */
         try {
-          gameObj.playerA.close();
-          gameObj.playerA = null;
+          gameObj.playerW.close();
+          gameObj.playerW = null;
         } catch (e) {
-          console.log("Player A closing: " + e);
+          console.log("Player W closing: " + e);
         }
 
         try {

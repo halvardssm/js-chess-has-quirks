@@ -1,47 +1,51 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Ballons: a two player word game</title>
-        <link rel="stylesheet" href="stylesheets/splash.css">
-    </head>
-    <body>
-        <main>
-            <section id="left">
-                <div id="decoration-top">
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                    <span class="square"></span>
-                </div>
-                <h1>Exploding balloons</h1>
-                <h2>A two player word game</h2>
-                <h3><%= gamesInitialized %> 
-                    <%if (gamesInitialized != 1) { %>
-                        games
-                    <% } else { %>
-                        game
-                    <% } %>
-                    initialized, 
-                    <%= gamesCompleted %> 
-                    completed
-                </h3>
-            </section>
-            <section id="right">
-                &nbsp;
-            </section>
-            <section id="balloons">
-                    <form action="/play" method="get">
-                            <button type="submit">PLAY</button>
-                    </form>
-                    <span class="balloon" id="b1"></span>
-                    <span class="balloon" id="b2"></span>
-                    <span class="balloon" id="b3"></span>
-            </section>
-        </main>
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./favicon/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="./favicon/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./favicon/manifest.json" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Chess has Quirks</title>
+  </head>
+  <body>
+    <div id="header">
+      <h1 class="title">Chess has Quirks</h1>
+      <img src="./images/logo.png" alt="logo" class="logo" />
+    </div>
+    <div id="root">
+      <div class="highscore">
+        <!-- <h3>
+          <%= gamesInitialized %> <%if (gamesInitialized != 1) { %> games <% }
+          else { %> game <% } %> initialized, <%= gamesCompleted %> completed
+        </h3> -->
+      </div>
+      <div class="button-wrapper">
+        <button>Play Now</button>
+      </div>
+    </div>
+  </body>
 </html>

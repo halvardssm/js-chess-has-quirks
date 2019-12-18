@@ -26,11 +26,11 @@
    * Server to client: set as player A
    */
   exports.T_PLAYER_TYPE = "PLAYER-TYPE";
-  exports.O_PLAYER_A = {
+  exports.O_PLAYER_W = {
     type: exports.T_PLAYER_TYPE,
-    data: "A"
+    data: "W"
   };
-  exports.S_PLAYER_A = JSON.stringify(exports.O_PLAYER_A);
+  exports.S_PLAYER_W = JSON.stringify(exports.O_PLAYER_W);
 
   /*
    * Server to client: set as player B

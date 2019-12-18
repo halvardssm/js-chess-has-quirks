@@ -1,12 +1,41 @@
 /* every game has two players, identified by their WebSocket */
 var game = function(gameID) {
-  this.playerA = null;
-  this.playerB = null;
+  this.white = null;
+  this.black = null;
   this.id = gameID;
-  this.wordToGuess = null; //first player to join the game, can set the word
-  this.gameState = "0 JOINT"; //"A" means A won, "B" means B won, "ABORTED" means the game was aborted
+  this.turn = this.white;
+  this.gameState = "0 JOINT"; //"W" means White won, "B" means Black won, "ABORTED" means the game was aborted
+  this.gameBoard = emptyGameBoard;
 };
 
+/*
+* White:
+* pawn - 1
+* rook - 2
+* knight - 3
+* bischop - 4
+* queen - 5
+* king - 6
+*
+* Black:
+* pawn - 7
+* rook - 8
+* knight - 9
+* bischop - 10
+* queen - 11
+* king - 12
+*/
+const emptyGameBoard =  [
+  [8,9,10,11,12,10,9,8],
+  [7,7,7,7,7,7,7,7],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0],
+  [1,1,1,1,1,1,1,1],
+  [2,3,4,5,6,4,3,2]
+];
+  
 /*
  * The game can be in a number of different states.
  */
@@ -14,10 +43,11 @@ game.prototype.transitionStates = {};
 game.prototype.transitionStates["0 JOINT"] = 0;
 game.prototype.transitionStates["1 JOINT"] = 1;
 game.prototype.transitionStates["2 JOINT"] = 2;
-game.prototype.transitionStates["CHAR GUESSED"] = 3;
-game.prototype.transitionStates["A"] = 4; //A won
-game.prototype.transitionStates["B"] = 5; //B won
-game.prototype.transitionStates["ABORTED"] = 6;
+game.prototype.transitionStates["W TURN"] = 3;
+game.prototype.transitionStates["B TURN"] = 4;
+game.prototype.transitionStates["W"] = 5; //White won
+game.prototype.transitionStates["B"] = 6; //B won
+game.prototype.transitionStates["ABORTED"] = 7;
 
 /*
  * Not all game states can be transformed into each other;
@@ -29,7 +59,7 @@ game.prototype.transitionMatrix = [
   [1, 0, 1, 0, 0, 0, 0], //1 JOINT
   [0, 0, 0, 1, 0, 0, 1], //2 JOINT (note: once we have two players, there is no way back!)
   [0, 0, 0, 1, 1, 1, 1], //CHAR GUESSED
-  [0, 0, 0, 0, 0, 0, 0], //A WON
+  [0, 0, 0, 0, 0, 0, 0], //W WON
   [0, 0, 0, 0, 0, 0, 0], //B WON
   [0, 0, 0, 0, 0, 0, 0] //ABORTED
 ];
@@ -154,11 +184,11 @@ game.prototype.addPlayer = function(p) {
     this.setStatus("2 JOINT");
   }
 
-  if (this.playerA == null) {
-    this.playerA = p;
-    return "A";
+  if (this.white == null) {
+    this.white = p;
+    return "W";
   } else {
-    this.playerB = p;
+    this.black = p;
     return "B";
   }
 };
