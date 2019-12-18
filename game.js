@@ -1,3 +1,5 @@
+const structs = require('./public/scripts/structs')
+
 /* every game has two players, identified by their WebSocket */
 var game = function(gameID) {
 	this.white = null
@@ -8,33 +10,34 @@ var game = function(gameID) {
 	this.gameBoard = emptyGameBoard
 }
 
+const pieceMapper=(i,j)=>{
+	if(i === 7){
+		return new structs.ChessPiece(structs.piecesOrder[j], structs.COLOUR.black, new structs.Position(i,j))
+	} else if(i===6){
+		return new structs.ChessPiece(structs.TYPES.pawn, structs.COLOUR.black, new structs.Position(i,j))
+	} else if(i===1){
+		return new structs.ChessPiece(structs.TYPES.pawn, structs.COLOUR.white, new structs.Position(i,j))
+	} else if(i===0){
+		return new structs.ChessPiece(structs.piecesOrder[j], structs.COLOUR.white, new structs.Position(i,j))
+	}
+}
+
 /*
-* White:
-* pawn - 1
-* rook - 2
-* knight - 3
-* bischop - 4
-* queen - 5
-* king - 6
-*
-* Black:
-* pawn - 7
-* rook - 8
-* knight - 9
-* bischop - 10
-* queen - 11
-* king - 12
 */
-const emptyGameBoard =  [
-	[8,9,10,11,12,10,9,8],
-	[7,7,7,7,7,7,7,7],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[0,0,0,0,0,0,0,0],
-	[1,1,1,1,1,1,1,1],
-	[2,3,4,5,6,4,3,2]
-]
+const emptyGameBoard = () =>{
+	const canvas = document.getElementById('game-board')
+	const ctx = canvas.getContext('2d')
+	let height = canvas.style.height
+
+
+	
+		
+	const board = Array(8).map((el, i) => Array(8).map((square, j)=> {
+		return pieceMapper(i,j)
+	}))
+
+	console.log('BOARD:' + board)
+}
   
 /*
  * The game can be in a number of different states.

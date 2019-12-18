@@ -1,3 +1,4 @@
+
 const TYPES = {
 	pawn: 'PAWN',
 	rook: 'ROOK',
@@ -33,3 +34,9 @@ class ChessPiece {
 		this.position.y += target.y
 	}
 }
+
+const piecesOrder = [TYPES.rook, TYPES.knight, TYPES.bishop,
+	TYPES.queen, TYPES.king, TYPES.bishop,
+	TYPES.knight, TYPES.rook]
+
+module.exports = {TYPES,COLOUR,Position,ChessPiece,piecesOrder}
