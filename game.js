@@ -5,7 +5,7 @@ var game = function(gameID) {
 	this.black = null
 	this.id = gameID
 	this.turn = this.white
-	this.gameState = '0 JOINT' //"W" means White won, "B" means Black won, "ABORTED" means the game was aborted
+	this.gameState = '0 JOINT' //See transition states
 	this.gameBoard = emptyGameBoard
 }
 
@@ -125,10 +125,6 @@ game.prototype.setWord = function(w) {
 		)
 	}
 	this.wordToGuess = w
-}
-
-game.prototype.getWord = function() {
-	return this.wordToGuess
 }
 
 game.prototype.hasTwoConnectedPlayers = function() {

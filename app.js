@@ -6,7 +6,8 @@ var indexRouter = require('./routes/index')
 var messages = require('./public/javascripts/messages')
 
 var gameStatus = require('./statTracker')
-var Game = require('./game')
+var Game = require('./public/scripts/Game')
+var { playerTurn } = require('./public/scripts/logic')
 
 var port = process.argv[2]
 var app = express()
@@ -53,7 +54,7 @@ wss.on('connection', function connection(ws) {
    */
 	let con = ws
 	con.id = connectionID++
-	let playerType = currentGame.addPlayer(con)
+	let playerType = currentGame.addPlayer(con) // Returns W or B
 	websockets[con.id] = currentGame
 
 	console.log(
@@ -69,20 +70,12 @@ wss.on('connection', function connection(ws) {
 	con.send(playerType == 'W' ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
 	/*
-   * client B receives the target word (if already available)
-   */
-	if (playerType == 'B' && currentGame.getWord() != null) {
-		let msg = messages.O_TARGET_WORD
-		msg.data = currentGame.getWord()
-		con.send(JSON.stringify(msg))
-	}
-
-	/*
    * once we have two players, there is no way back;
    * a new game object is created;
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
+		con.send(messages.S_GAME_START)
 		currentGame = new Game(gameStatus.gamesInitialized++)
 	}
 
@@ -96,38 +89,8 @@ wss.on('connection', function connection(ws) {
 		let oMsg = JSON.parse(message)
 
 		let gameObj = websockets[con.id]
-		let isPlayerW = gameObj.playerW == con ? true : false
 
-		if (isPlayerW) {
-			/*
-       * player W cannot do a lot, just send the target word;
-       * if player B is already available, send message to B
-       */
-			if (oMsg.type == messages.T_TARGET_WORD) {
-
-				if (gameObj.hasTwoConnectedPlayers()) {
-					gameObj.playerB.send(message)
-				}
-			}
-		} else {
-			/*
-       * player B can make a guess;
-       * this guess is forwarded to W
-       */
-			if (oMsg.type == messages.T_MAKE_A_GUESS) {
-				gameObj.playerW.send(message)
-				gameObj.setStatus('CHAR GUESSED')
-			}
-
-			/*
-       * player B can state who won/lost
-       */
-			if (oMsg.type == messages.T_GAME_WON_BY) {
-				gameObj.setStatus(oMsg.data)
-				//game was won by somebody, update statistics
-				gameStatus.gamesCompleted++
-			}
-		}
+		playerTurn(gameObj, oMsg, con)
 	})
 
 	con.on('close', function(code) {
