@@ -1,11 +1,11 @@
-const { ChessPiece, TYPES,COLOUR, Position, piecesOrder } = require('./structs')
+const { ChessPiece, TYPES, COLOUR, Position, piecesOrder } = require('./structs')
 
 class Game {
 	constructor(gameId) {
 		this.id = gameId
 		this.playerW = null
 		this.playerB = null
-		this.gameBoard = this.emptyGameBoard()
+		this.gameBoard = null
 		this.gameState = '0 JOINT'
 		this.transitionStates = {
 			'0 JOINT': 0,
@@ -31,35 +31,11 @@ class Game {
 	/**
 	 * @param {any} playerB
 	 */
-	set playerB(playerB) {
+	setPlayerB(playerB) {
 		this.playerB = playerB
 	}
 
 	isValidTransition(from, to) {
-		console.assert(
-			typeof from == 'string',
-			'%s: Expecting a string, got a %s',
-			arguments.callee.name,
-			typeof from
-		)
-		console.assert(
-			typeof to == 'string',
-			'%s: Expecting a string, got a %s',
-			arguments.callee.name,
-			typeof to
-		)
-		console.assert(
-			from in this.transitionStates == true,
-			'%s: Expecting %s to be a valid transition state',
-			arguments.callee.name,
-			from
-		)
-		console.assert(
-			to in this.transitionStates == true,
-			'%s: Expecting %s to be a valid transition state',
-			arguments.callee.name,
-			to
-		)
 	
 		let i, j
 		if (!(from in this.transitionStates)) {
@@ -81,35 +57,19 @@ class Game {
 		return s in this.transitionStates
 	}
 
-	pieceMapper(i,j) {
+	pieceMapper(i, j) {
 		if(i === 7){
-			return new ChessPiece(piecesOrder[j], COLOUR.black, new Position(i,j))
+			return new ChessPiece(piecesOrder[j], COLOUR.black, new Position(i, j))
 		} else if(i === 6){
-			return new ChessPiece(TYPES.pawn, COLOUR.black, new Position(i,j))
+			return new ChessPiece(TYPES.pawn, COLOUR.black, new Position(i, j))
 		} else if(i === 1){
-			return new ChessPiece(TYPES.pawn, COLOUR.white, new Position(i,j))
+			return new ChessPiece(TYPES.pawn, COLOUR.white, new Position(i, j))
 		} else if(i === 0){
-			return new ChessPiece(piecesOrder[j], COLOUR.white, new Position(i,j))
+			return new ChessPiece(piecesOrder[j], COLOUR.white, new Position(i, j))
 		}
 	}
 
-	emptyGameBoard() {
-		const canvas = document.getElementById('game-board')
-		const ctx = canvas.getContext('2d')
-		let height = canvas.style.height
-			
-		const board = Array(8).map((el, i) => Array(8).map((square, j)=> {
-			return this.pieceMapper(i,j)
-		}))
-	}
-
 	setStatus(w) {
-		console.assert(
-			typeof w == 'string',
-			'%s: Expecting a string, got a %s',
-			arguments.callee.name,
-			typeof w
-		)
 	
 		if (
 			this.isValidState(w) &&
@@ -127,13 +87,7 @@ class Game {
 	}
 
 	addPlayer(p) {
-		console.assert(
-			p instanceof Object,
-			'%s: Expecting an object (WebSocket), got a %s',
-			arguments.callee.name,
-			typeof p
-		)
-	
+
 		if (this.gameState != '0 JOINT' && this.gameState != '1 JOINT') {
 			return new Error(`Invalid call to addPlayer, current state is ${this.gameState}`)
 		}

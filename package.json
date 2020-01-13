@@ -1,10 +1,10 @@
 {
-  "name": "balloons",
+  "name": "chess-has-quirks",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js 3000",
-    "lint": "eslint *.js public/**/*.js routes/**/*.js --fix"
+    "start": "node src/app.js",
+    "lint": "eslint --quiet --fix --ext .js src/ public/"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

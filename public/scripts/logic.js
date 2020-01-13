@@ -1,8 +1,7 @@
-import { T_GAME_START, T_MOVE_PIECE } from '../javascripts/messages'
-import Game from './Game'
-
+const { T_GAME_START, T_MOVE_PIECE } = require('../javascripts/messages')
+const Game = require('./Game')
 const messages = require('./../javascripts/messages')
-const { TYPES, Position, ChessPiece } = require('./structs')
+const { TYPES, Position, ChessPiece } = require('./structs').default
 
 const pawnLogic = (start, end) => { }
 
@@ -30,37 +29,37 @@ const validateMove = (piece, end) => {
 	let start = new Position(piece.position.x, piece.position.y)
 
 	switch (piece.type) {
-		case TYPES.pawn:
-			pawnLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
+	case TYPES.pawn:
+		pawnLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
+		break
 
-		case TYPES.rook:
-			rookLogic(start, end) ? piece.move(end) : console.log('Invalid Move!')
-			break
+	case TYPES.rook:
+		rookLogic(start, end) ? piece.move(end) : console.log('Invalid Move!')
+		break
 
-		case TYPES.knight:
-			knightLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
+	case TYPES.knight:
+		knightLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
+		break
 
-		case TYPES.bishop:
-			bishopLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
+	case TYPES.bishop:
+		bishopLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
+		break
 
-		case TYPES.queen:
-			queenLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
+	case TYPES.queen:
+		queenLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
+		break
 
-		case TYPES.king:
-			kingLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
+	case TYPES.king:
+		kingLogic(start, end) ? piece.move(end) : console.log('Invalid move!')
+		break
 
-		default:
-			console.log('Invalid piece given')
-			break
+	default:
+		console.log('Invalid piece given')
+		break
 	}
 }
 
-export const playerTurn = (gameObject, message, connection) => {
+const playerTurn = (gameObject, message, connection) => {
 
 	/** @type Game */
 	let game = gameObject
@@ -70,16 +69,18 @@ export const playerTurn = (gameObject, message, connection) => {
 	message
 
 	switch(message.type){
-		case T_GAME_START:
-			if(!isPlayerW) break
+	case T_GAME_START:
+		if(!isPlayerW) break
 
 
 
-			break
-		case T_MOVE_PIECE:
+		break
+	case T_MOVE_PIECE:
 			
 	}
 }
+
+module.exports = { playerTurn, validateMove }
 	
 // 	if (isPlayerW) {
 // 		/*

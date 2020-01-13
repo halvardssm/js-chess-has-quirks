@@ -3,45 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="./favicon/android-icon-192x192.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="96x96"
-      href="./favicon/favicon-96x96.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="./favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="./favicon/manifest.json" />
-    <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="stylesheets/game.css" />
     <title>Chess has Quirks</title>
   </head>
   <body>
     <div id="header">
       <h1 class="title">Chess has Quirks</h1>
-      <img src="./images/logo.png" alt="logo" class="logo" />
     </div>
     <div id="root">
-      <div class="chat"></div>
       <div class="game-board-wrapper">
         <canvas id="game-board"></canvas>
       </div>
       <div class="log"></div>
     </div>
+    <script src="scripts/structs.js"></script>
+    <script src="scripts/logic.js"></script>
+    <script src="scripts/Game.js"></script>
+    <script src="javascripts/config.js"></script>
+    <script src="javascripts/statuses.js"></script>
+    <script src="javascripts/messages.js"></script>
+    <script src="javascripts/ui-right.js"></script>
+    <script src="javascripts/interactions.js"></script>
   </body>
 </html>

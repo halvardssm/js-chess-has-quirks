@@ -1,41 +1,44 @@
-var express = require('express')
-var http = require('http')
-var websocket = require('ws')
+const express = require('express')
+const http = require('http')
+const websocket = require('ws')
+var path = require('path')
 
-var indexRouter = require('./routes/index')
-var messages = require('./public/javascripts/messages')
+const messages = require('../public/javascripts/messages')
+const gameStatus = require('../public/scripts/statTracker')
+const Game = require('../public/scripts/Game')
+const { playerTurn } = require('../public/scripts/logic')
+const { COLOUR } = require('../public/scripts/structs')
 
-var gameStatus = require('./statTracker')
-var Game = require('./public/scripts/Game')
-var { playerTurn } = require('./public/scripts/logic')
-
-var port = process.argv[2]
-var app = express()
+const port = process.argv[2] || process.env.PORT || 2000
+const router = express.Router()
+const app = express()
 
 app.set('view engine', 'ejs')
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '../public'))
 
-app.get('/play', indexRouter)
+router.get('/play', function(req, res) {
+	res.sendFile('game.ejs', { root: '../public/views' })
+})
 
-//TODO: move to routes/index
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
 	res.render('splash.ejs', {
+		root: '../public/views',
 		gamesInitialized: gameStatus.gamesInitialized,
 		gamesCompleted: gameStatus.gamesCompleted
 	})
 })
 
-var server = http.createServer(app)
+const server = http.createServer(app)
 const wss = new websocket.Server({ server })
 
-var websockets = {} //property: websocket, value: game
+let websockets = {} //property: websocket, value: game
 
 /*
  * regularly clean up the websockets object
  */
 setInterval(function() {
 	for (let i in websockets) {
-		if (Object.prototype.hasOwnProperty.call(websockets,i)) {
+		if (Object.prototype.hasOwnProperty.call(websockets, i)) {
 			let gameObj = websockets[i]
 			//if the gameObj has a final status, the game is complete/aborted
 			if (gameObj.finalStatus != null) {
@@ -45,8 +48,8 @@ setInterval(function() {
 	}
 }, 50000)
 
-var currentGame = new Game(gameStatus.gamesInitialized++)
-var connectionID = 0 //each websocket receives a unique ID
+let currentGame = new Game(gameStatus.gamesInitialized++)
+let connectionID = 0 //each websocket receives a unique ID
 
 wss.on('connection', function connection(ws) {
 	/*
@@ -67,7 +70,7 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType == 'W' ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType == COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
 	/*
    * once we have two players, there is no way back;

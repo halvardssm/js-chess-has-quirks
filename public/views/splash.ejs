@@ -9,12 +9,18 @@
   <body>
     <div id="header">
       <h1 class="title">Chess has Quirks</h1>
-      <img src="./images/logo.png" alt="logo" class="logo" />
     </div>
     <div id="root">
-      <div class="highscore"></div>
+      <div class="highscore">
+        <!-- <h3>
+          <%= gamesInitialized %> <%if (gamesInitialized != 1) { %> games <% }
+          else { %> game <% } %> initialized, <%= gamesCompleted %> completed
+        </h3> -->
+      </div>
       <div class="button-wrapper">
-        <button>Play Now</button>
+        <form action="/play" method="get">
+          <button type="submit">Play Now</button>
+        </form>
       </div>
     </div>
   </body>
