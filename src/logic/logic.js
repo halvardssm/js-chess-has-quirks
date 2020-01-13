@@ -1,7 +1,7 @@
-const { T_GAME_START, T_MOVE_PIECE } = require('../javascripts/messages')
+const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared/messages')
 const Game = require('./Game')
-const messages = require('./../javascripts/messages')
-const { TYPES, Position, ChessPiece } = require('./structs').default
+const messages = require('../../public/shared/messages')
+const { TYPES, Position, ChessPiece } = require('../../public/shared/structs').default
 
 const pawnLogic = (start, end) => { }
 
@@ -65,13 +65,9 @@ const playerTurn = (gameObject, message, connection) => {
 	let game = gameObject
 
 	let isCurrentPlayer = game.playerW == connection ? true : false
-	
-	message
 
 	switch(message.type){
 	case T_GAME_START:
-		if(!isPlayerW) break
-
 
 
 		break

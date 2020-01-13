@@ -1,4 +1,4 @@
-const { ChessPiece, TYPES, COLOUR, Position, piecesOrder } = require('./structs')
+const { ChessPiece, TYPES, COLOUR, Position, piecesOrder } = require('../../public/shared/structs')
 
 class Game {
 	constructor(gameId) {
