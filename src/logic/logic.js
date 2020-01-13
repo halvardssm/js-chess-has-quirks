@@ -1,7 +1,7 @@
-const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared/messages')
+const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
 const Game = require('./Game')
-const messages = require('../../public/shared/messages')
-const { TYPES, Position, ChessPiece } = require('../../public/shared/structs').default
+const messages = require('../../public/shared-js/messages')
+const { TYPES, Position, ChessPiece } = require('../../public/shared-js/structs')
 
 const pawnLogic = (start, end) => { }
 
