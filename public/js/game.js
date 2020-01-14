@@ -1,4 +1,3 @@
-const { PIECES_ORDER } = require('../shared-js/structs')
 
 function createBoard(connection) {
 	

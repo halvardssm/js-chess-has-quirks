@@ -1,9 +1,10 @@
 const express = require('express')
 const http = require('http')
 const websocket = require('ws')
+var path = require('path')
 
 const gameStatus = require('./logic/statTracker')
-const Game = require('./logic/Game')
+const Game = require('./logic/GameState')
 const { playerTurn } = require('./logic/logic')
 const messages = require('../public/shared-js/messages')
 const { COLOUR } = require('../public/shared-js/structs')
@@ -12,21 +13,23 @@ const port = process.argv[2] || process.env.PORT || 2000
 const router = express.Router()
 const app = express()
 
+app.set('views', path.join(__dirname, '../public/views'))
+
 app.set('view engine', 'ejs')
-app.use(express.static(__dirname + '../public'))
+app.use(express.static(path.join(__dirname, '../public')))
 
 router.get('/play', function(req, res) {
-	res.sendFile('game.ejs', { root: '../public/views' })
+	res.render('game.ejs')
 })
 
-app.get('*', (req, res) => {
+router.get('/', (req, res) => {
 	res.render('splash.ejs', {
-		root: '../public/views',
 		gamesInitialized: gameStatus.gamesInitialized,
 		gamesCompleted: gameStatus.gamesCompleted
 	})
 })
 
+app.use(router)
 const server = http.createServer(app)
 const wss = new websocket.Server({ server })
 
@@ -135,3 +138,7 @@ wss.on('connection', function connection(ws) {
 })
 
 server.listen(port)
+
+console.log(`connect to http://localhost:${port}`)
+
+module.exports = { port }

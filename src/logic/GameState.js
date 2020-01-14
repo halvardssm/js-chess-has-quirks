@@ -1,6 +1,6 @@
 const { ChessPiece, TYPES, COLOUR, Position, piecesOrder } = require('../../public/shared-js/structs')
 
-class Game {
+class GameState {
 	constructor(gameId) {
 		this.id = gameId
 		this.playerW = null
@@ -17,12 +17,12 @@ class Game {
 	}
 
 	hasTwoConnectedPlayers() {
-		return this.gameState == '2 JOINT'
+		return this.playerB != null
 	}
 
 	addPlayer(p) {
 
-		if (this.gameState != '0 JOINT' && this.gameState != '1 JOINT') {
+		if (this.playerW && this.playerB) {
 			return new Error(`Invalid call to addPlayer, current state is ${this.gameState}`)
 		}
 	
@@ -77,4 +77,4 @@ class Game {
 // }
 }
 
-module.exports = Game
+module.exports = GameState

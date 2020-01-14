@@ -1,5 +1,6 @@
+const { port } = require('./app')
 const config = {}
 
-config.WEB_SOCKET_URL = 'ws://localhost:3000'
+config.WEB_SOCKET_URL = `ws://localhost:${port}`
 
 module.exports = config
