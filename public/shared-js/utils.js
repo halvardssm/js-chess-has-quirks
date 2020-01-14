@@ -6,7 +6,7 @@ utils.generateEmptyBoardArray = () => {
 	return Array(8).fill(0).map(() => Array(8).fill(0))
 }
 
-utils.pieceMapper = (x, y) => {
+utils.initialPieceMapper = (x, y) => {
 	if(y === 7){
 		return new ChessPiece(PIECES_ORDER[x], COLOUR.black, new Position(x, y))
 	} else if(y === 6){

@@ -1,6 +1,6 @@
 const Game = require('../scripts/Game')
 
-function emptyGameBoard() {
+module.exports.default = function emptyGameBoard() {
 	const canvas = document.getElementById('game-board')
 	console.log('BOAAAARD')
 	const ctx = canvas.getContext('2d')
@@ -10,5 +10,3 @@ function emptyGameBoard() {
 		return Game.prototype.pieceMapper(i, j)
 	}))
 }
-
-emptyGameBoard()
