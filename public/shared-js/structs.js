@@ -1,3 +1,5 @@
+const structures = {}
+
 const TYPES = {
 	pawn: 'PAWN',
 	rook: 'ROOK',
@@ -44,7 +46,7 @@ class ChessPiece {
 	}
 }
 
-const piecesOrder = [
+const PIECES_ORDER = [
 	TYPES.rook,
 	TYPES.knight,
 	TYPES.bishop,
@@ -55,4 +57,4 @@ const piecesOrder = [
 	TYPES.rook
 ]
 
-module.exports = { TYPES, COLOUR, Position, ChessPiece, piecesOrder }
+module.exports = { TYPES, COLOUR, Position, ChessPiece, PIECES_ORDER }

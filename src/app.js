@@ -1,12 +1,11 @@
 const express = require('express')
 const http = require('http')
 const websocket = require('ws')
-var path = require('path')
 
-const messages = require('../public/shared-js/messages')
 const gameStatus = require('./logic/statTracker')
 const Game = require('./logic/Game')
 const { playerTurn } = require('./logic/logic')
+const messages = require('../public/shared-js/messages')
 const { COLOUR } = require('../public/shared-js/structs')
 
 const port = process.argv[2] || process.env.PORT || 2000
