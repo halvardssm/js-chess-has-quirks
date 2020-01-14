@@ -9,7 +9,7 @@ module.exports = {
 		sourceType: "module"
 	},
 	rules: {
-		indent: ['error', 'tab'],
+		indent: ['error', 'tab',{ 'SwitchCase': 1 }],
 		'linebreak-style': ['error', 'unix'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
@@ -17,6 +17,7 @@ module.exports = {
 		'arrow-spacing': ['error', { 'before': true, 'after': true }],
 		'key-spacing': ['error', { afterColon: true, mode: 'strict' }],
 		'eol-last': ['error', 'always'],
+		'no-undef': ['off'],
 		'no-unused-vars': ['warn'],
 		'no-mixed-spaces-and-tabs': ['error'],
 		'object-curly-spacing': ['error', 'always', { 'arraysInObjects': false, 'objectsInObjects': false }],
