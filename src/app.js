@@ -73,6 +73,10 @@ wss.on('connection', function connection(ws) {
    */
 	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
+	const boardMsg = messages.O_BOARD
+	boardMsg.data = currentGame.getBoard()
+	
+	con.send(JSON.stringify(boardMsg))
 	/*
    * once we have two players, there is no way back;
    * a new game object is created;
@@ -80,7 +84,7 @@ wss.on('connection', function connection(ws) {
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
 		let outgoingMessage = messages.O_GAME_START
-		outgoingMessage.data = currentGame.getBoard()
+		// outgoingMessage.data = currentGame.getBoard()
 		// console.log(outgoingMessage)
 		con.send(JSON.stringify(outgoingMessage))
 		currentGame = new Game(gameStatus.gamesInitialized++)

@@ -10,7 +10,7 @@ const game = new Game(socket)
 socket.onmessage = (incomingMsg) => {
 	const message = JSON.parse(incomingMsg.data)
 	//set player type
-
+	console.log(message)
 	switch (message.type) {
 		case T_MOVE_PIECE:
 			console.log('2')
