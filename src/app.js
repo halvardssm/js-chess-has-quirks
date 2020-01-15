@@ -7,10 +7,8 @@ const gameStatus = require('./logic/statTracker')
 const Game = require('./logic/GameState')
 const { playerTurn } = require('./logic/logic')
 const messages = require('../public/shared-js/messages')
-const { COLOUR } = require('../public/shared-js/structs')
+const { CPCOLOUR } = require('../public/shared-js/structs')
 const { PORT } = require('../public/shared-js/consts')
-const { generateEmptyBoardArray } = require('./logic/utils')
-
 
 const router = express.Router()
 const app = express()
@@ -74,7 +72,7 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType === CPCOLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
 	/*
    * once we have two players, there is no way back;
@@ -84,6 +82,7 @@ wss.on('connection', function connection(ws) {
 	if (currentGame.hasTwoConnectedPlayers()) {
 		let outgoingMessage = messages.O_GAME_START
 		outgoingMessage.data = currentGame.getBoard()
+		// console.log(outgoingMessage)
 		con.send(JSON.stringify(outgoingMessage))
 		currentGame = new Game(gameStatus.gamesInitialized++)
 	}

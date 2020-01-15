@@ -10,6 +10,8 @@ class Game {
 	}
 
 	setBoardArray(boardArray){
+		console.log('setting board array')
+		console.log(boardArray)
 		this.boardArray = boardArray
 	}
 
@@ -23,6 +25,7 @@ class Game {
 	}
 
 	generateBoard() {
+		console.log('generating board')
 		const canvas = document.getElementById('game-board')
 		const ctx = canvas.getContext('2d')
 		let height = canvas.style.height
