@@ -1,4 +1,4 @@
-(function setup() {
+(() => {
 	console.log('setup initiated')
 	var socket = new WebSocket(config.WEB_SOCKET_URL)
 	var gs = new GameState(vw, sb, socket)

@@ -1,4 +1,4 @@
-(function(exports) {
+((exports) => {
 
 	exports.T_GAME_START = 'GAME-START'
 	exports.O_GAME_START = {
