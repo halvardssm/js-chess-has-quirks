@@ -1,5 +1,5 @@
 ((exports) => {
-	exports.TYPES = {
+	exports.CPTYPES = {
 		pawn: 'PAWN',
 		rook: 'ROOK',
 		knight: 'KNIGHT',
@@ -8,12 +8,12 @@
 		king: 'KING'
 	}
 
-	exports.COLOUR = {
+	exports.CPCOLOUR = {
 		black: 'BLACK',
 		white: 'WHITE',
 	}
 
-	exports.Position = class Position {
+	exports.CPPosition = class CPPosition {
 		/**
 		 * @param {number} x 
 		 * @param {number} y 
@@ -28,20 +28,21 @@
 		/**
 		 * @param {string} type 
 		 * @param {string} colour 
-		 * @param {exports.Position} position 
+		 * @param {exports.CPPosition} position 
 		 */
 		constructor(type, colour, position) {
 			this.type = type
 			this.colour = colour
 			this.position = position
+			this.availableMoves = []
 		}
-	
+
 		move(target) {
 			this.position.x += target.x
 			this.position.y += target.y
 		}
 	}
-	
+
 	exports.PIECES_ORDER = [
 		exports.TYPES.rook,
 		exports.TYPES.knight,

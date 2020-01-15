@@ -1,13 +1,55 @@
 const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
 const Game = require('./Game')
-const messages = require('../../public/shared-js/messages')
-const { TYPES, Position, ChessPiece } = require('../../public/shared-js/structs')
+const Messages = require('../../public/shared-js/messages')
+const Structs = require('../../public/shared-js/structs')
 
 /**
- * @param {ChessPiece[][]} board
+ * @param {Structs.ChessPiece[][]} gameBoard
+ * @param {Structs.ChessPiece} piece
+ */
+const updateAvailableMoves = (gameBoard, piece) => {
+	gameBoard.map(arr => arr.map())
+}
+
+/**
+ * @param {Structs.ChessPiece[][]} board
+ * @param {Structs.ChessPiece} piece 
+ * @param {Structs.CPPosition} end 
+ * @return {boolean}
+ */
+const validateMove = (board, piece, end) => {
+	let start = new Position(piece.position.x, piece.position.y)
+
+	switch (piece.type) {
+		case TYPES.pawn:
+			return pawnLogic(board, start, end)
+
+		case TYPES.rook:
+			return rookLogic(board, start, end)
+
+		case TYPES.knight:
+			return knightLogic(board, start, end)
+
+		case TYPES.bishop:
+			return bishopLogic(board, start, end)
+
+		case TYPES.queen:
+			return queenLogic(board, start, end)
+
+		case TYPES.king:
+			return kingLogic(board, start, end)
+
+		default:
+			console.log('Invalid piece given')
+			return false
+	}
+}
+
+/**
+ * @param {Structs.ChessPiece[][]} board
  * @param {string} colour
- * @param {Position} start 
- * @param {Position} end 
+ * @param {Structs.CPPosition} start 
+ * @param {Structs.CPPosition} end 
  */
 const pawnLogic = (board, colour, start, end) => {
 	let direction = (colour === 'BLACK') ? -1 : 1
@@ -17,7 +59,9 @@ const pawnLogic = (board, colour, start, end) => {
 	}
 }
 
-const rookLogic = (board, start, end) => Math.abs(start.x - end.x) === 0 || Math.abs(start.y - end.y) === 0 ? rookLogicHelper(board, start, end) : false
+const rookLogic = (board, start, end) => Math.abs(start.x - end.x) === 0 || Math.abs(start.y - end.y) === 0
+	? rookLogicHelper(board, start, end)
+	: false
 
 const rookLogicHelper = (board, position, end) => {
 
@@ -25,56 +69,27 @@ const rookLogicHelper = (board, position, end) => {
 
 const knightLogic = (board, start, end) => { }
 
-const bishopLogic = (board, start, end) => Math.abs(start.x - end.x) === Math.abs(start.y - end.y) ? false : bishopHelper(board, start, end)
+const bishopLogic = (board, start, end) => Math.abs(start.x - end.x) === Math.abs(start.y - end.y)
+	? false
+	: bishopHelper(board, start, end)
 
 const bishopHelper = (curr, end) => {
 
 }
 
-const queenLogic = (board, start, end) => { }
-
-const kingLogic = (board, start, end) => { }
+const queenLogic = (board, start, end) => 'this is a return value'
 
 /**
- * @param {ChessPiece[][]} board
- * @param {ChessPiece} piece 
- * @param {Position} end 
- * @return {boolean}
+ * 
+ * @param {Structs.ChessPiece[][]} board 
+ * @param {Structs.CPCOLOUR} colour
+ * @param {Structs.CPPosition} start 
+ * @param {Structs.CPPosition} end 
  */
-const validateMove = (board, piece, end) => {
-	let start = new Position(piece.position.x, piece.position.y)
+const kingLogic = (board, colour, start, end) => board[end.x][end.y].colour === colour
+	? false
+	: (Math.abs(end.x - start.x) <= 1 && Math.abs(end.y - start.y) <= 1)
 
-
-	switch (piece.type) {
-		case TYPES.pawn:
-			pawnLogic(board, start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
-
-		case TYPES.rook:
-			rookLogic(board, start, end) ? piece.move(end) : console.log('Invalid Move!')
-			break
-
-		case TYPES.knight:
-			knightLogic(board, start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
-
-		case TYPES.bishop:
-			bishopLogic(board, start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
-
-		case TYPES.queen:
-			queenLogic(board, start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
-
-		case TYPES.king:
-			kingLogic(board, start, end) ? piece.move(end) : console.log('Invalid move!')
-			break
-
-		default:
-			console.log('Invalid piece given')
-			break
-	}
-}
 
 const playerTurn = (gameObject, message, connection) => {
 
