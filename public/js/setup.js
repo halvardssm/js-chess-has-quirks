@@ -2,7 +2,7 @@
 
 (() => {
 	console.log('setup initiated')
-	const socket = new WebSocket(config.WEB_SOCKET_URL)
+	const socket = new WebSocket(Config.WEB_SOCKET_URL)
 	const game = new Game(socket)
 	
 	socket.onmessage = (incomingMsg) => {

@@ -1,4 +1,4 @@
-const { ChessPiece, TYPES, COLOUR, Position, piecesOrder } = require('../../public/shared-js/structs')
+const { COLOUR } = require('../../public/shared-js/structs')
 
 class GameState {
 	constructor(gameId) {
@@ -6,7 +6,7 @@ class GameState {
 		this.playerW = null
 		this.playerB = null
 		this.gameBoard = null
-
+		this.winner = null
 	}
 
 	/**
@@ -20,51 +20,33 @@ class GameState {
 		return this.playerB != null
 	}
 
-	addPlayer(p) {
-
+	addPlayer(player) {
 		if (this.playerW && this.playerB) {
-			return new Error(`Invalid call to addPlayer, current state is ${this.gameState}`)
+			return new Error('Invalid call to addPlayer, Game full')
 		}
 	
-		/*
-	   * revise the game state
-	   */
-	
-		var error = this.setStatus('1 JOINT')
-		if (error instanceof Error) {
-			this.setStatus('2 JOINT')
-		}
-	
-		if (this.white == null) {
-			this.white = p
-			return 'W'
+		if (this.playerW == null) {
+			this.playerW = player
+			return COLOUR.white
 		} else {
-			this.black = p
-			return 'B'
+			this.black = player
+			return COLOUR.black
 		}
 	}
 
-	whoWon = function() {
-		//too many wrong guesses? Player A (who set the word) won
-		if (this.wrongGuesses > Setup.MAX_ALLOWED_GUESSES) {
-			return 'A'
-		}
-		//word solved? Player B won
-		if (this.visibleWordArray.indexOf('#') < 0) {
-			return 'B'
-		}
-		return null //nobody won yet
+	getWinner(){
+		return this.winner
 	}
 
 	// function AlphabetBoard(gs) {
-// 	//only initialize for player that should actually be able to use the board
-// 	this.initialize = function() {
-// 		var elements = document.querySelectorAll('.alphabet')
-// 		Array.from(elements).forEach(function(el) {
-// 			el.addEventListener('click', function singleClick(e) {
-// 				var clickedLetter = e.target.id
-// 				new Audio('../data/click.wav').play()
-// 				gs.updateGame(clickedLetter)
+	// 	//only initialize for player that should actually be able to use the board
+	// 	this.initialize = function() {
+	// 		var elements = document.querySelectorAll('.alphabet')
+	// 		Array.from(elements).forEach(function(el) {
+	// 			el.addEventListener('click', function singleClick(e) {
+	// 				var clickedLetter = e.target.id
+	// 				new Audio('../data/click.wav').play()
+	// 				gs.updateGame(clickedLetter)
 
 // 				/*
 //          * every letter can only be selected once; handling this within

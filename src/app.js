@@ -8,8 +8,8 @@ const Game = require('./logic/GameState')
 const { playerTurn } = require('./logic/logic')
 const messages = require('../public/shared-js/messages')
 const { COLOUR } = require('../public/shared-js/structs')
+const { PORT } = require('../public/shared-js/consts')
 
-const port = process.argv[2] || process.env.PORT || 2000
 const router = express.Router()
 const app = express()
 
@@ -137,8 +137,6 @@ wss.on('connection', function connection(ws) {
 	})
 })
 
-server.listen(port)
-
-console.log(`connect to http://localhost:${port}`)
-
-module.exports = { port }
+server.listen(PORT, () => {
+	console.log(`connect to http://localhost:${PORT}`)
+})
