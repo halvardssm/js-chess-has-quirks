@@ -1,13 +1,7 @@
 const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
-<<<<<<< HEAD
-const Game = require('./Game')
+const GameState = require('./GameState')
 const Messages = require('../../public/shared-js/messages')
 const Structs = require('../../public/shared-js/structs')
-=======
-const Game = require('./GameState')
-const messages = require('../../public/shared-js/messages')
-const { TYPES, Position, ChessPiece } = require('../../public/shared-js/structs')
->>>>>>> 22c1d7fbb228cf675fc6111424a214321351bb71
 
 /**
  * @param {Structs.ChessPiece[][]} gameBoard
@@ -65,7 +59,7 @@ const pawnLogic = (board, colour, start, end) => {
 	}
 }
 
-const rookLogic = (board, start, end) => Math.abs(start.x - end.x) === 0 || Math.abs(start.y - end.y) === 0
+const rookLogic = (board, start, end) => isStraight(start, end)
 	? rookLogicHelper(board, start, end)
 	: false
 
@@ -75,9 +69,9 @@ const rookLogicHelper = (board, position, end) => {
 
 const knightLogic = (board, start, end) => { }
 
-const bishopLogic = (board, start, end) => Math.abs(start.x - end.x) === Math.abs(start.y - end.y)
-	? false
-	: bishopHelper(board, start, end)
+const bishopLogic = (board, start, end) => isDiagonal(start, end)
+	? bishopHelper(board, start, end)
+	: false
 
 const bishopHelper = (curr, end) => {
 
@@ -92,10 +86,30 @@ const queenLogic = (board, start, end) => 'this is a return value'
  * @param {Structs.CPPosition} start 
  * @param {Structs.CPPosition} end 
  */
-const kingLogic = (board, colour, start, end) => board[end.x][end.y].colour === colour
+const kingLogic = (board, colour, start, end) => containsPieceColour(colour, end)
 	? false
 	: (Math.abs(end.x - start.x) <= 1 && Math.abs(end.y - start.y) <= 1)
 
+/**
+ * 
+ * @param {Structs.CPPosition} pos1 
+ * @param {Structs.CPPosition} pos2 
+ */
+const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y - pos2.y)
+
+/**
+ * 
+ * @param {Structs.CPPosition} pos1 
+ * @param {Structs.CPPosition} pos2 
+ */
+const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
+
+/**
+ * 
+ * @param {Structs.CPPosition} pos 
+ * @param {Structs.CPCOLOUR} colour 
+ */
+const containsPieceColour = (pos, colour) => board[pos.x][pos.y].colour === colour
 
 const playerTurn = (gameObject, message, connection) => {
 
