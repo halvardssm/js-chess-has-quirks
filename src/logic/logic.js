@@ -1,5 +1,5 @@
 const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
-const Game = require('./Game')
+const Game = require('./GameState')
 const messages = require('../../public/shared-js/messages')
 const { TYPES, Position, ChessPiece } = require('../../public/shared-js/structs')
 

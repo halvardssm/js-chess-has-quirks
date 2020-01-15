@@ -10,7 +10,7 @@ class GameState {
 	}
 
 	hasTwoConnectedPlayers() {
-		return this.playerB != null
+		return this.playerB !== null
 	}
 
 	addPlayer(player) {
@@ -18,11 +18,11 @@ class GameState {
 			return new Error('Invalid call to addPlayer, Game full')
 		}
 	
-		if (this.playerW == null) {
+		if (this.playerW === null) {
 			this.playerW = player
 			return COLOUR.white
 		} else {
-			this.black = player
+			this.playerB = player
 			return COLOUR.black
 		}
 	}

@@ -72,7 +72,7 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType == COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
 	/*
    * once we have two players, there is no way back;
@@ -111,29 +111,21 @@ wss.on('connection', function connection(ws) {
        */
 			let gameObj = websockets[con.id]
 
-			if (gameObj.isValidTransition(gameObj.gameState, 'ABORTED')) {
-				gameObj.setStatus('ABORTED')
-				gameStatus.gamesAborted++
+			try {
+				gameObj.playerW.close()
+				gameObj.playerW = null
+			} catch (e) {
+				console.log('Player W closing: ' + e)
+			}
 
-				/*
-         * determine whose connection remains open;
-         * close it
-         */
-				try {
-					gameObj.playerW.close()
-					gameObj.playerW = null
-				} catch (e) {
-					console.log('Player W closing: ' + e)
-				}
-
-				try {
-					gameObj.playerB.close()
-					gameObj.playerB = null
-				} catch (e) {
-					console.log('Player B closing: ' + e)
-				}
+			try {
+				gameObj.playerB.close()
+				gameObj.playerB = null
+			} catch (e) {
+				console.log('Player B closing: ' + e)
 			}
 		}
+		currentGame = new Game(gameStatus.gamesInitialized++)
 	})
 })
 
