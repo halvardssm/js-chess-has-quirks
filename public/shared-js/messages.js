@@ -5,9 +5,9 @@
 
 	exports.T_GAME_START = 'GAME-START'
 	exports.O_GAME_START = {
-		type: exports.T_GAME_START
+		type: exports.T_GAME_START,
+		data: null
 	}
-	exports.S_GAME_START = JSON.stringify(exports.O_GAME_START)
 
 	/*
    * Server to client: abort game (e.g. if second player exited the game)

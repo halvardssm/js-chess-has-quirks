@@ -8,21 +8,21 @@
 	socket.onmessage = (incomingMsg) => {
 		const message = JSON.parse(incomingMsg.data)
 
+		console.log(message)
 		//set player type
 		switch (message.type) {
-			case Messages.T_PLAYER_TYPE:
-				game.setPlayerType(message.data)
-
-				if (game.getPlayerType() === Structs.COLOR.white) {
-
-					socket.send(JSON.stringify(outgoingMsg))
-				} else {
-					console.log('hi')
-				}
-
-				break
 			case Messages.T_MOVE_PIECE:
 
+				break
+
+			case Messages.T_GAME_START:
+				if(game.getPlayerType() === Structs.COLOUR.white){
+					game.enableBoard()
+				}
+				break
+			case Messages.T_PLAYER_TYPE:
+				game.setPlayerType(message.data)
+				// game.setBoardArray(Utils.)
 				break
 		}
 
@@ -34,15 +34,9 @@
 	}
 
 	//server sends a close event only if the game was aborted from some side
-<<<<<<< HEAD
-	socket.onclose = function () {
-		if (game.whoWon() === null) {
-			game.setStatus(Status['aborted'])
-=======
 	socket.onclose = function() {
 		if (game.getWinner() === null) {
 			// game.setStatus(Status['aborted'])
->>>>>>> 22c1d7fbb228cf675fc6111424a214321351bb71
 		}
 	}
 

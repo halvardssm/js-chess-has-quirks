@@ -17,11 +17,26 @@ class Game {
 		return this.playerType
 	}
 
+	// only enable if it is the right player
+	enableBoard(){
+
+	}
+
 	generateBoard() {
 		const canvas = document.getElementById('game-board')
 		const ctx = canvas.getContext('2d')
 		let height = canvas.style.height
 
+		this.boardArray.forEach((y, i) => y.forEach((x, j) => {
+			ctx.fillStyle = ((i + j) % 2 == 0) ? 'white' : 'black'
+			const squareSize = 50
+			const boardTopx = 50
+			const boardTopy = 50
+			let xOffset = boardTopx + j * squareSize
+			let yOffset = boardTopy + i * squareSize
+			ctx.fillRect(xOffset, yOffset, squareSize, squareSize)
+		}))
+		
 		// function drawChessboard() {
 		// 	// size of each chess square
 		// 	const squareSize = 50;
@@ -61,14 +76,5 @@ class Game {
 		// 		})
 		// 	}
 		// }
-				
-		this.boardArray.forEach((y, i) => y.forEach((x, j) => {
-			ctx.fillStyle = ((i + j) % 2 == 0) ? 'white' : 'black'
-			const squareSize = 50
-			const boardTopx = 50
-			const boardTopy = 50
-			let xOffset = boardTopx + j * squareSize
-			let yOffset = boardTopy + i * squareSize
-			ctx.fillRect(xOffset, yOffset, squareSize, squareSize)
-		}))
-	}}
+	}
+}

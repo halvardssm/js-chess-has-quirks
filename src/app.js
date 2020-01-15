@@ -80,7 +80,9 @@ wss.on('connection', function connection(ws) {
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		con.send(messages.S_GAME_START)
+		let outgoingMessage = messages.O_GAME_START
+		outgoingMessage.data = 
+		con.send()
 		currentGame = new Game(gameStatus.gamesInitialized++)
 	}
 
