@@ -1,4 +1,4 @@
-import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE } from '../shared-js/messages.js'
+import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE, T_BOARD } from '../shared-js/messages.js'
 import Game from './game.js'
 import { WEB_SOCKET_URL } from '../shared-js/consts.js'
 import { COLOUR } from '../shared-js/structs.js'
@@ -22,14 +22,15 @@ socket.onmessage = (incomingMsg) => {
 		case T_GAME_START:
 			console.log('3')
 
-			console.log('testing', message)
-			game.setBoardArray(message.data)
-				
-			game.generateBoard()
-
 			if(game.getPlayerType() === COLOUR.white){
 				game.enableBoard()
 			}
+			break
+
+		case T_BOARD:
+			game.setBoardArray(message.data)
+			game.generateBoard()
+			
 			break
 		case T_PLAYER_TYPE:
 			console.log('4')

@@ -37,14 +37,16 @@ export default class Game {
 
 		this.boardArray.forEach((y, i) => y.forEach((x, j) => {
 			ctx.fillStyle = ((i + j) % 2 == 0) ? 'white' : 'black'
-			const squareSize = 50
-			const boardTopx = 50
-			const boardTopy = 50
-			let xOffset = boardTopx + j * squareSize
-			let yOffset = boardTopy + i * squareSize
+			const squareSize = 30
+			let xOffset = squareSize + j * squareSize
+			let yOffset = squareSize + i * squareSize
 			ctx.fillRect(xOffset, yOffset, squareSize, squareSize)
 		}))
-		
+		// https://codepen.io/wafs/pen/iJjsd?editors=1010
+		// https://www.quickprogrammingtips.com/javascript/how-to-draw-a-chessboard-in-html-canvas-using-javascript.html
+		// https://github.com/moroshko/chessboard/blob/master/chessboard.js
+		// https://stackoverflow.com/questions/26432492/chessboard-html5-only
+		// https://www.w3schools.com/graphics/game_controllers.asp
 		// function drawChessboard() {
 		// 	// size of each chess square
 		// 	const squareSize = 50;
