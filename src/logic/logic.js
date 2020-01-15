@@ -1,7 +1,13 @@
 const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
+<<<<<<< HEAD
 const Game = require('./Game')
 const Messages = require('../../public/shared-js/messages')
 const Structs = require('../../public/shared-js/structs')
+=======
+const Game = require('./GameState')
+const messages = require('../../public/shared-js/messages')
+const { TYPES, Position, ChessPiece } = require('../../public/shared-js/structs')
+>>>>>>> 22c1d7fbb228cf675fc6111424a214321351bb71
 
 /**
  * @param {Structs.ChessPiece[][]} gameBoard
