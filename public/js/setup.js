@@ -35,8 +35,8 @@
 
 	//server sends a close event only if the game was aborted from some side
 	socket.onclose = function() {
-		if (game.whoWon() === null) {
-			game.setStatus(Status['aborted'])
+		if (game.getWinner() === null) {
+			// game.setStatus(Status['aborted'])
 		}
 	}
 
