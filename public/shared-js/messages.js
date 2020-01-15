@@ -1,7 +1,7 @@
 // @ts-nocheck
 /* global Structs */
 ((exports) => {
-	const { COLOUR } = typeof exports === 'undefined' ? Structs : require('./structs')
+	const { CPCOLOUR } = typeof exports === 'undefined' ? Structs : require('./structs')
 
 	exports.T_GAME_START = 'GAME-START'
 	exports.O_GAME_START = {
@@ -23,7 +23,7 @@
 	exports.T_PLAYER_TYPE = 'PLAYER-TYPE'
 	exports.O_PLAYER_W = {
 		type: exports.T_PLAYER_TYPE,
-		data: COLOUR.white
+		data: CPCOLOUR.white
 	}
 	exports.S_PLAYER_W = JSON.stringify(exports.O_PLAYER_W)
 
@@ -32,7 +32,7 @@
    */
 	exports.O_PLAYER_B = {
 		type: exports.T_PLAYER_TYPE,
-		data: COLOUR.black
+		data: CPCOLOUR.black
 	}
 	exports.S_PLAYER_B = JSON.stringify(exports.O_PLAYER_B)
 

@@ -9,6 +9,8 @@ const { playerTurn } = require('./logic/logic')
 const messages = require('../public/shared-js/messages')
 const { COLOUR } = require('../public/shared-js/structs')
 const { PORT } = require('../public/shared-js/consts')
+const { generateEmptyBoardArray } = require('./logic/utils')
+
 
 const router = express.Router()
 const app = express()
@@ -81,8 +83,8 @@ wss.on('connection', function connection(ws) {
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
 		let outgoingMessage = messages.O_GAME_START
-		outgoingMessage.data = 
-		con.send()
+		outgoingMessage.data = currentGame.getBoard()
+		con.send(JSON.stringify(outgoingMessage))
 		currentGame = new Game(gameStatus.gamesInitialized++)
 	}
 

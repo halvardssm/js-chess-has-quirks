@@ -1,5 +1,5 @@
 const { CPCOLOUR, ChessPiece } = require('../../public/shared-js/structs')
-const { generateEmptyBoardArray } = require('../../public/shared-js/utils')
+const { generateEmptyBoardArray } = require('./utils')
 
 class GameState {
 
@@ -11,7 +11,7 @@ class GameState {
 		this.playerW = null
 		this.playerB = null
 		/** @type ChessPiece[][] */
-		this.gameBoard = EmptyBoardArray()
+		this.gameBoard = generateEmptyBoardArray()
 		this.winner = null
 	}
 
@@ -35,6 +35,10 @@ class GameState {
 
 	getWinner() {
 		return this.winner
+	}
+
+	getBoard(){
+		return this.gameBoard
 	}
 
 	initValidMoves() {

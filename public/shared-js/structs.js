@@ -44,14 +44,14 @@
 	}
 
 	exports.PIECES_ORDER = [
-		exports.TYPES.rook,
-		exports.TYPES.knight,
-		exports.TYPES.bishop,
-		exports.TYPES.queen,
-		exports.TYPES.king,
-		exports.TYPES.bishop,
-		exports.TYPES.knight,
-		exports.TYPES.rook
+		exports.CPTYPES.rook,
+		exports.CPTYPES.knight,
+		exports.CPTYPES.bishop,
+		exports.CPTYPES.queen,
+		exports.CPTYPES.king,
+		exports.CPTYPES.bishop,
+		exports.CPTYPES.knight,
+		exports.CPTYPES.rook
 	]
 })(typeof exports === 'undefined' ? (this.Structs = {}) : exports)
 

@@ -16,14 +16,15 @@
 				break
 
 			case Messages.T_GAME_START:
+				game.setBoardArray(message.data)
+				
 				if(game.getPlayerType() === Structs.COLOUR.white){
 					game.enableBoard()
 				}
 				break
 			case Messages.T_PLAYER_TYPE:
 				game.setPlayerType(message.data)
-				// game.setBoardArray(Utils.)
-				break
+				return
 		}
 
 		game.generateBoard()
