@@ -1,25 +1,32 @@
+// @ts-nocheck
+
 (() => {
 	console.log('setup initiated')
-	var socket = new WebSocket(config.WEB_SOCKET_URL)
-	var gs = new GameState(vw, sb, socket)
+	const socket = new WebSocket(config.WEB_SOCKET_URL)
+	const game = new Game(socket)
 	
-	ui()
-
-	socket.onmessage = function(message) {
-		let incomingMsg = JSON.parse(message.data)
+	socket.onmessage = (incomingMsg) => {
+		const message = JSON.parse(incomingMsg.data)
 
 		//set player type
-		if (incomingMsg.type == Messages.T_PLAYER_TYPE) {
-			gs.setPlayerType(incomingMsg.data) //should be "A" or "B"
+		switch (message.type) {
+			case Messages.T_PLAYER_TYPE:
+				game.setPlayerType(message.data)
 
-			//if player type is A, (1) pick a word, and (2) sent it to the server
-			if (gs.getPlayerType() == 'A') {
+				if (game.getPlayerType() === Structs.COLOR.white) {
 			
-				socket.send(JSON.stringify(outgoingMsg))
-			} else {
+					socket.send(JSON.stringify(outgoingMsg))
+				} else {
 
-			}
+				}
+
+				break
+			case Messages.T_MOVE_PIECE:
+
+				break
 		}
+
+		game.generateBoard()
 	}
 
 	socket.onopen = function() {
@@ -28,8 +35,8 @@
 
 	//server sends a close event only if the game was aborted from some side
 	socket.onclose = function() {
-		if (gs.whoWon() == null) {
-			sb.setStatus(Status['aborted'])
+		if (game.whoWon() === null) {
+			game.setStatus(Status['aborted'])
 		}
 	}
 

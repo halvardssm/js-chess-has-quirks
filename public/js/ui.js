@@ -1,6 +1,4 @@
-const Game = require('../scripts/Game')
-
-module.exports.default = function emptyGameBoard() {
+const gameBoard = () => {
 	const canvas = document.getElementById('game-board')
 	console.log('BOAAAARD')
 	const ctx = canvas.getContext('2d')
