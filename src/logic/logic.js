@@ -1,23 +1,22 @@
-const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
-const GameState = require('./GameState')
-const Messages = require('../../public/shared-js/messages')
-const Structs = require('../../public/shared-js/structs')
+import { T_GAME_START, T_MOVE_PIECE } from '../../public/shared-js/messages.js'
+import { ChessPiece, Position, TYPES, COLOUR } from '../../public/shared-js/structs.js'
+import GameState from './GameState.js'
 
 /**
- * @param {Structs.ChessPiece[][]} gameBoard
- * @param {Structs.ChessPiece} piece
+ * @param {ChessPiece[][]} gameBoard
+ * @param {ChessPiece} piece
  */
-const updateAvailableMoves = (gameBoard, piece) => {
+export const updateAvailableMoves = (gameBoard, piece) => {
 	gameBoard.map(arr => arr.map())
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {ChessPiece[][]} board
+ * @param {ChessPiece} piece 
+ * @param {Position} end 
  * @return {boolean}
  */
-const validateMove = (board, piece, end) => {
+export const validateMove = (board, piece, end) => {
 	let start = new Position(piece.position.x, piece.position.y)
 
 	switch (piece.type) {
@@ -46,12 +45,12 @@ const validateMove = (board, piece, end) => {
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board
+ * @param {ChessPiece[][]} board
  * @param {string} colour
- * @param {Structs.CPPosition} start 
- * @param {Structs.CPPosition} end 
+ * @param {Position} start 
+ * @param {Position} end 
  */
-const pawnLogic = (board, colour, start, end) => {
+export const pawnLogic = (board, colour, start, end) => {
 	let direction = (colour === 'BLACK') ? -1 : 1
 
 	if (start.x === end.x) {
@@ -59,61 +58,65 @@ const pawnLogic = (board, colour, start, end) => {
 	}
 }
 
-const rookLogic = (board, start, end) => isStraight(start, end)
+export const rookLogic = (board, start, end) => isStraight(start, end)
 	? rookLogicHelper(board, start, end)
 	: false
 
-const rookLogicHelper = (board, position, end) => {
+export const rookLogicHelper = (board, position, end) => {
 
 }
 
-const knightLogic = (board, start, end) => { }
+export const knightLogic = (board, start, end) => { }
 
-const bishopLogic = (board, start, end) => isDiagonal(start, end)
+export const bishopLogic = (board, start, end) => isDiagonal(start, end)
 	? bishopHelper(board, start, end)
 	: false
 
-const bishopHelper = (curr, end) => {
+export const bishopHelper = (curr, end) => {
 
 }
 
-const queenLogic = (board, start, end) => 'this is a return value'
+export const queenLogic = (board, start, end) => 'this is a return value'
 
 /**
  * 
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.CPCOLOUR} colour
- * @param {Structs.CPPosition} start 
- * @param {Structs.CPPosition} end 
+ * @param {ChessPiece[][]} board 
+ * @param {COLOUR} colour
+ * @param {Position} start 
+ * @param {Position} end 
  */
-const kingLogic = (board, colour, start, end) => containsPieceColour(colour, end)
+export const kingLogic = (board, colour, start, end) => containsPieceColour(colour, end)
 	? false
 	: (Math.abs(end.x - start.x) <= 1 && Math.abs(end.y - start.y) <= 1)
 
 /**
  * 
- * @param {Structs.CPPosition} pos1 
- * @param {Structs.CPPosition} pos2 
+ * @param {Position} pos1 
+ * @param {Position} pos2 
  */
-const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y - pos2.y)
+export const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y - pos2.y)
 
 /**
  * 
- * @param {Structs.CPPosition} pos1 
- * @param {Structs.CPPosition} pos2 
+ * @param {Position} pos1 
+ * @param {Position} pos2 
  */
-const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
+export const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
 
 /**
  * 
- * @param {Structs.CPPosition} pos 
- * @param {Structs.CPCOLOUR} colour 
+ * @param {Position} pos 
+ * @param {COLOUR} colour 
  */
-const containsPieceColour = (pos, colour) => board[pos.x][pos.y].colour === colour
+export const containsPieceColour = (pos, colour) => board[pos.x][pos.y].colour === colour
 
-const playerTurn = (gameObject, message, connection) => {
+/**
+ * @param {GameState} gameObject 
+ * @param {object} message
+ * @param {WebSocket} connection
+ */
+export const playerTurn = (gameObject, message, connection) => {
 
-	/** @type Game */
 	let game = gameObject
 
 	let isCurrentPlayer = game.playerW == connection ? true : false
@@ -127,8 +130,6 @@ const playerTurn = (gameObject, message, connection) => {
 
 	}
 }
-
-module.exports = { playerTurn, validateMove }
 
 // 	if (isPlayerW) {
 // 		/*

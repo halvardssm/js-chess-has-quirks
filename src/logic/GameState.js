@@ -1,7 +1,7 @@
-const { CPCOLOUR, ChessPiece } = require('../../public/shared-js/structs')
-const { generateEmptyBoardArray } = require('./utils')
+import { COLOUR, ChessPiece } from'../../public/shared-js/structs.js'
+import { generateEmptyBoardArray } from'./utils.js'
 
-class GameState {
+export default class GameState {
 
 	/**
 	 * @param {number} gameId 
@@ -26,10 +26,10 @@ class GameState {
 
 		if (this.playerW === null) {
 			this.playerW = player
-			return CPCOLOUR.white
+			return COLOUR.white
 		} else {
 			this.playerB = player
-			return CPCOLOUR.black
+			return COLOUR.black
 		}
 	}
 
@@ -45,5 +45,3 @@ class GameState {
 		this.gameBoard.map(arr => arr.map(cp => cp.updateAvailableMoves()))
 	}
 }
-
-module.exports = GameState

@@ -1,22 +1,21 @@
-const express = require('express')
-const http = require('http')
-const websocket = require('ws')
-var path = require('path')
-
-const gameStatus = require('./logic/statTracker')
-const Game = require('./logic/GameState')
-const { playerTurn } = require('./logic/logic')
-const messages = require('../public/shared-js/messages')
-const { CPCOLOUR } = require('../public/shared-js/structs')
-const { PORT } = require('../public/shared-js/consts')
+import express from 'express'
+import http from 'http'
+import path from 'path'
+import websocket from 'ws'
+import { PORT } from '../public/shared-js/consts.js'
+import * as messages from '../public/shared-js/messages.js'
+import { COLOUR } from '../public/shared-js/structs.js'
+import Game from './logic/GameState.js'
+import { playerTurn } from './logic/logic.js'
+import { gameStatus } from './logic/statTracker.js'
 
 const router = express.Router()
 const app = express()
 
-app.set('views', path.join(__dirname, '../public/views'))
+app.set('views', path.join(path.resolve(), '/public/views'))
 
 app.set('view engine', 'ejs')
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(path.resolve(), '/public')))
 
 router.get('/play', function(req, res) {
 	res.render('game.ejs')
@@ -72,7 +71,7 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType === CPCOLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
 
 	/*
    * once we have two players, there is no way back;

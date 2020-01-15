@@ -1,54 +1,55 @@
-// @ts-nocheck
+import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE } from '../shared-js/messages.js'
+import Game from './game.js'
+import { WEB_SOCKET_URL } from '../shared-js/consts.js'
+import { COLOUR } from '../shared-js/structs.js'
 
-(() => {
-	console.log('setup initiated')
-	const socket = new WebSocket(Config.WEB_SOCKET_URL)
-	const game = new Game(socket)
+console.log('setup initiated')
+const socket = new WebSocket(WEB_SOCKET_URL)
+const game = new Game(socket)
 
-	socket.onmessage = (incomingMsg) => {
-		const message = JSON.parse(incomingMsg.data)
-		console.log(message)
-		//set player type
-		switch (message.type) {
-			case Messages.T_MOVE_PIECE:
-				console.log('2')
+socket.onmessage = (incomingMsg) => {
+	const message = JSON.parse(incomingMsg.data)
+	//set player type
 
-				game.generateBoard()
+	switch (message.type) {
+		case T_MOVE_PIECE:
+			console.log('2')
 
-				break
+			game.generateBoard()
 
-			case Messages.T_GAME_START:
-				console.log('3')
+			break
 
-				console.log('testing', message)
-				game.setBoardArray(message.data)
+		case T_GAME_START:
+			console.log('3')
+
+			console.log('testing', message)
+			game.setBoardArray(message.data)
 				
-				game.generateBoard()
+			game.generateBoard()
 
-				if(game.getPlayerType() === Structs.COLOUR.white){
-					game.enableBoard()
-				}
-				break
-			case Messages.T_PLAYER_TYPE:
-				console.log('4')
+			if(game.getPlayerType() === COLOUR.white){
+				game.enableBoard()
+			}
+			break
+		case T_PLAYER_TYPE:
+			console.log('4')
 
-				game.setPlayerType(message.data)
-				return
-		}
-		console.log('5')
-
+			game.setPlayerType(message.data)
+			return
 	}
+	console.log('5')
 
-	socket.onopen = function () {
-		socket.send('{}')
+}
+
+socket.onopen = function () {
+	socket.send('{}')
+}
+
+//server sends a close event only if the game was aborted from some side
+socket.onclose = function() {
+	if (game.getWinner() === null) {
+		// game.setStatus(Status['aborted'])
 	}
+}
 
-	//server sends a close event only if the game was aborted from some side
-	socket.onclose = function() {
-		if (game.getWinner() === null) {
-			// game.setStatus(Status['aborted'])
-		}
-	}
-
-	socket.onerror = function () { }
-})()
+socket.onerror = function () { }

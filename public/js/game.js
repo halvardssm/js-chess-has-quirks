@@ -1,8 +1,9 @@
-class Game {
+export default class Game {
 	constructor(socket){
 		this.socket = socket
 		this.playerType = null
 		this.boardArray = null
+		this.winner = null
 	}
 
 	setPlayerType(playerType){
@@ -17,6 +18,10 @@ class Game {
 
 	getPlayerType(){
 		return this.playerType
+	}
+
+	getWinner(){
+		return this.winner
 	}
 
 	// only enable if it is the right player
