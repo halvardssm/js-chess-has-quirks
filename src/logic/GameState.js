@@ -1,4 +1,4 @@
-import { COLOUR, ChessPiece } from'../../public/shared-js/index.js'
+import { COLOUR, ChessPiece } from'../../public/lib/index.js'
 import { generateEmptyBoardArray } from'./index.js'
 
 export class GameState {

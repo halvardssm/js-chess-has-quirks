@@ -3,7 +3,7 @@ import http from 'http'
 import path from 'path'
 import websocket from 'ws'
 
-import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/shared-js/index.js'
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/lib/index.js'
 import { GameState, playerTurn, gameStatus } from './logic/index.js'
 
 const router = express.Router()

@@ -1,4 +1,4 @@
-import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES } from '../../public/shared-js/index.js'
+import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES } from '../../public/lib/index.js'
 
 /**
  	* @param {number} x

@@ -1,4 +1,4 @@
-import { ChessPiece, Position, TYPES, COLOUR, T_GAME_START, T_MOVE_PIECE } from '../../public/shared-js/index.js'
+import { ChessPiece, Position, TYPES, COLOUR, T_GAME_START, T_MOVE_PIECE } from '../../public/lib/index.js'
 import { GameState } from './index.js'
 
 /**

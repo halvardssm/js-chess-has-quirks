@@ -1,7 +1,5 @@
-import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE, T_BOARD } from '../shared-js/messages.js'
+import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE, T_BOARD, WEB_SOCKET_URL, COLOUR } from '../lib/index.js'
 import Game from './game.js'
-import { WEB_SOCKET_URL } from '../shared-js/consts.js'
-import { COLOUR } from '../shared-js/structs.js'
 
 console.log('setup initiated')
 const socket = new WebSocket(WEB_SOCKET_URL)
