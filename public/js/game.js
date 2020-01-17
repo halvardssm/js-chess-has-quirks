@@ -31,42 +31,35 @@ export default class Game {
 
 	generateBoard() {
 		console.log('generating board')
-		const canvas = document.getElementById('game-board')
-		const ctx = canvas.getContext('2d')
-		let height = canvas.style.height
 
-		this.boardArray.forEach((y, i) => y.forEach((x, j) => {
-			ctx.fillStyle = ((i + j) % 2 == 0) ? 'white' : 'black'
-			const squareSize = 30
-			let xOffset = squareSize + j * squareSize
-			let yOffset = squareSize + i * squareSize
-			ctx.fillRect(xOffset, yOffset, squareSize, squareSize)
-		}))
-		// https://codepen.io/wafs/pen/iJjsd?editors=1010
-		// https://www.quickprogrammingtips.com/javascript/how-to-draw-a-chessboard-in-html-canvas-using-javascript.html
-		// https://github.com/moroshko/chessboard/blob/master/chessboard.js
-		// https://stackoverflow.com/questions/26432492/chessboard-html5-only
-		// https://www.w3schools.com/graphics/game_controllers.asp
-		// function drawChessboard() {
-		// 	// size of each chess square
-		// 	const squareSize = 50;
-		// 	// position of board's top left
-		// 	const boardTopx = 50;
-		// 	const boardTopy = 50;
-		// 	let canvas = document.getElementById("canvasChessboard");
-		// 	context = canvas.getContext("2d");
-		// 	for(let i=0; i<8; i++) {
-		// 	  for(let j=0; j<8; j++) {
-		// 		context.fillStyle = ((i+j)%2==0) ? "white":"black";
-		// 		let xOffset = boardTopx + j*squareSize;
-		// 		let yOffset = boardTopy + i*squareSize;
-		// 		context.fillRect(xOffset, yOffset, squareSize, squareSize);
-		// 	  }
-		// 	}
-		// 	// draw the border around the chessboard
-		// 	context.strokeStyle = "black";
-		// 	context.strokeRect(boardTopx, boardTopy, squareSize*8, squareSize*8)
-		//   }
+		let counter = 0
+
+		const board = document.getElementById('board')
+		this.boardArray.forEach((arr, y) => {
+
+			const row = document.createElement('div')
+			row.className = 'row'
+			
+			arr.forEach((el, x) => {
+				const cell = document.createElement('div')
+				cell.className = `col ${counter++ % 2 ? 'white' : 'black'}`
+				
+				if(el !== null){
+					cell.className = cell.className + ' piece'
+					cell.addEventListener('click', () => {
+						console.log(arr, y, el, x)
+					})
+
+					const svg = document.createElement('img')
+					svg.src = `assets/${el.type}_${el.colour}.svg`
+					cell.appendChild(svg)
+				}
+				row.appendChild(cell)
+			})
+			counter++
+
+			board.appendChild(row)
+		})
 		// function AlphabetBoard(gs) {
 		// 	//only initialize for player that should actually be able to use the board
 		// 	this.initialize = function() {
