@@ -59,80 +59,110 @@ const pawnLogic = (board, piece, end) => {
 }
 
 /**
- * @param {Chesspiece[][]} board 
- * @param {Chesspiece} piece 
+ * @param {ChessPiece[][]} board 
+ * @param {ChessPiece} piece 
  * @param {Position} end 
  * @returns {boolean}
  */
 const rookLogic = (board, piece, end) => isStraight(start, end)
-	? rookLogicHelper(board, piece.colour, piece.position, end)
+	? bresenham(board, piece.position, end)
 	: false
 
 /**
- * @param {Chesspiece[][]} board 
+ * @param {ChessPiece[][]} board 
  * @param {Position} position 
  * @param {Position} end 
  * @returns {boolean}
+ * Possibly depracated?
  */
 const rookLogicHelper = (board, colour, pos, end) => false
 
 /**
- * @param {Chesspiece[][]} board 
- * @param {Chesspiece} piece 
+ * @param {ChessPiece[][]} board 
+ * @param {ChessPiece} piece 
  * @param {Position} end 
  * @returns {boolean}
  */
 const knightLogic = (board, piece, end) => false
 
 /**
- * @param {Chesspiece[][]} board 
- * @param {Chesspiece} piece 
+ * @param {ChessPiece[][]} board 
+ * @param {ChessPiece} piece 
  * @param {Position} end 
  * @returns {boolean}
  */
 const bishopLogic = (board, piece, end) => isDiagonal(start, end)
-	? bishopHelper(board, piece.position, end)
+	? bresenham(board, piece.position, end)
 	: false
 
 /**
- * @param {Chesspiece[][]} board
+ * @param {ChessPiece[][]} board
  * @param {Position} curr 
  * @param {Position} end 
  * @returns {boolean}
+ * Possibly depracated?
  */
-const bishopHelper = (board, piece, end) => {
+const bishopHelper = (board, curr, end) => {
 
 }
 
 /**
- * @param {Chesspiece[][]} board 
- * @param {Chesspiece} piece 
+ * @param {ChessPiece[][]} board 
+ * @param {ChessPiece} piece 
  * @param {Position} end 
  * @returns {boolean}
  */
 const queenLogic = (board, piece, end) => !containsPieceColour(end, piece.colour)
 	&& (isDiagonal(piece.position, end) || isStraight(piece.position, end))
-	? queenLogic(board, piece.position, end)
+	? bresenham(board, piece.position, end)
 	: false
 
 /**
  * 
- * @param {Chesspiece[][]} board 
+ * @param {ChessPiece[][]} board 
  * @param {Position} curr 
  * @param {Position} end 
  * @returns {boolean}
+ * Possibly depracated?
  */
 const queenLogicHelper = (board, piece, end) => false
 
 /**
- * @param {Chesspiece[][]} board 
- * @param {Chesspiece} piece
+ * @param {ChessPiece[][]} board 
+ * @param {ChessPiece} piece
  * @param {Position} end 
  * @returns {boolean}
  */
 const kingLogic = (board, piece, end) => !containsPieceColour(piece.colour, end)
 	? (Math.abs(end.x - start.x) <= 1 && Math.abs(end.y - start.y) <= 1)
 	: false
+
+/**
+ * 
+ * @param {Position} start 
+ * @param {Position} end 
+ * @return {boolean}
+ */
+const bresenham = (board, start, end) => {
+	let x0 = start.x
+	let y0 = start.y
+	let dx = Math.abs(end.x - x0)
+	let dy = Math.abs(end.y - y0)
+	let sx = (x0 < end.x) ? 1 : -1
+	let sy = (y0 < end.y) ? 1 : -1
+	let err = dx - dy
+
+	while (true) {
+		if ((x0 === x1) && (y0 === y1)) break
+		if (board[x0][y0]) return false
+
+		var e2 = 2 * err
+		e2 > -dy ? err -= dy : x0 += sx
+		e2 < dx ? err += dx : y0 += sy
+	}
+
+	return true
+}
 
 /**
  * @param {Position} pos1 
@@ -164,6 +194,17 @@ const containsPieceColour = (pos, colour) => board[pos.x][pos.y]
 const getOppositiveColour = (colour) => colour === 'WHITE'
 	? 'BLACK'
 	: 'WHITE'
+
+/**
+ * 
+ * @param {number} start 
+ * @param {number} end 
+ */
+function* range(start, end) {
+	yield start
+	if (start === end) return
+	yield* range(start + 1, end)
+}
 
 /**
  * @param {GameState} gameObject 
