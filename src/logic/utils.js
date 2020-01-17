@@ -17,6 +17,9 @@ export const pieceMapper = (x, y) => {
 	}
 }
 
+/**
+ * @returns {ChessPiece[][]}
+ */
 export const generateEmptyBoardArray = () => {
-	return Array(8).fill(null).map((y, i) => Array(8).fill(null).map((x, j) =>  pieceMapper(j, i)))
+	return Array(8).fill(null).map((y, i) => Array(8).fill(null).map((x, j) => pieceMapper(j, i)))
 }

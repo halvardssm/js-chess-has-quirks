@@ -36,9 +36,19 @@ export class ChessPiece {
 		this.availableMoves = []
 	}
 
+	/**
+	 * @param {Position} target 
+	 */
 	move(target) {
-		this.position.x += target.x
-		this.position.y += target.y
+		this.position.x = target.x
+		this.position.y = target.y
+	}
+
+	/**
+	 * @param  {...Position} moves 
+	 */
+	updateValidMoves(...moves) {
+		this.availableMoves = moves
 	}
 }
 
