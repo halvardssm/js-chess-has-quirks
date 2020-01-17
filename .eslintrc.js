@@ -9,13 +9,13 @@ module.exports = {
 		sourceType: "module"
 	},
 	rules: {
-		indent: ['error', 'tab',{ 'SwitchCase': 1 }],
+		indent: ['error', 'tab',{ 'SwitchCase': 1,"ObjectExpression": "first" }],
 		'linebreak-style': ['error', 'unix'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'never'],
 		'comma-spacing': ['error', { 'before': false, 'after': true }],
 		'arrow-spacing': ['error', { 'before': true, 'after': true }],
-		'key-spacing': ['error', { afterColon: true, mode: 'strict' }],
+		'key-spacing': ['error', { afterColon: true, mode: 'strict',align:'value' }],
 		'eol-last': ['error', 'always'],
 		'no-undef': ['off'],
 		'no-unused-vars': ['warn'],
