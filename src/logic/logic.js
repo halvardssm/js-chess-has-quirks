@@ -46,17 +46,16 @@ export const validateMove = (board, piece, end) => {
 
 /**
  * @param {ChessPiece[][]} board
- * @param {string} colour
- * @param {Position} start 
+ * @param {ChessPiece} piece
  * @param {Position} end
  * @returns {boolean}
  */
-const pawnLogic = (board, colour, start, end) => {
-	let direction = (colour === 'BLACK') ? -1 : 1
+const pawnLogic = (board, piece, end) => {
+	let start = piece.position
+	if (containsPieceColour(end, piece.colour)) return false
+	if (isStraight(start, end) && containsPieceColour(end, getOppositiveColour(piece.colour))) return false
 
-	if (start.x === end.x) {
-		return true
-	}
+	let direction = (piece.colour === 'WHITE') ? 1 : -1
 }
 
 /**
@@ -157,6 +156,14 @@ const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
 const containsPieceColour = (pos, colour) => board[pos.x][pos.y]
 	? board[pos.x][pos.y].colour === colour
 	: false
+
+/**
+ * @param {COLOUR} colour
+ * @returns {COLOUR}
+ */
+const getOppositiveColour = (colour) => colour === 'WHITE'
+	? 'BLACK'
+	: 'WHITE'
 
 /**
  * @param {GameState} gameObject 
