@@ -1,6 +1,5 @@
-import { T_GAME_START, T_MOVE_PIECE } from '../../public/shared-js/messages.js'
-import { ChessPiece, Position, TYPES, COLOUR } from '../../public/shared-js/structs.js'
-import GameState from './GameState.js'
+import { ChessPiece, Position, TYPES, COLOUR, T_GAME_START, T_MOVE_PIECE } from '../../public/shared-js/index.js'
+import { GameState } from './index.js'
 
 /**
  * @param {ChessPiece[][]} gameBoard

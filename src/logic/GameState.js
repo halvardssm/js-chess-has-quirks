@@ -1,7 +1,7 @@
-import { COLOUR, ChessPiece } from'../../public/shared-js/structs.js'
-import { generateEmptyBoardArray } from'./utils.js'
+import { COLOUR, ChessPiece } from'../../public/shared-js/index.js'
+import { generateEmptyBoardArray } from'./index.js'
 
-export default class GameState {
+export class GameState {
 
 	/**
 	 * @param {number} gameId 

@@ -2,12 +2,9 @@ import express from 'express'
 import http from 'http'
 import path from 'path'
 import websocket from 'ws'
-import { PORT } from '../public/shared-js/consts.js'
-import * as messages from '../public/shared-js/messages.js'
-import { COLOUR } from '../public/shared-js/structs.js'
-import Game from './logic/GameState.js'
-import { playerTurn } from './logic/logic.js'
-import { gameStatus } from './logic/statTracker.js'
+
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/shared-js/index.js'
+import { GameState, playerTurn, gameStatus } from './logic/index.js'
 
 const router = express.Router()
 const app = express()
@@ -49,7 +46,7 @@ setInterval(function() {
 	}
 }, 50000)
 
-let currentGame = new Game(gameStatus.gamesInitialized++)
+let currentGame = new GameState(gameStatus.gamesInitialized++)
 let connectionID = 0 //each websocket receives a unique ID
 
 wss.on('connection', function connection(ws) {
@@ -71,9 +68,9 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType === COLOUR.black ? S_PLAYER_W : S_PLAYER_B)
 
-	const boardMsg = messages.O_BOARD
+	const boardMsg = O_BOARD
 	boardMsg.data = currentGame.getBoard()
 	
 	con.send(JSON.stringify(boardMsg))
@@ -83,11 +80,11 @@ wss.on('connection', function connection(ws) {
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		let outgoingMessage = messages.O_GAME_START
+		let outgoingMessage = O_GAME_START
 		// outgoingMessage.data = currentGame.getBoard()
 		// console.log(outgoingMessage)
 		con.send(JSON.stringify(outgoingMessage))
-		currentGame = new Game(gameStatus.gamesInitialized++)
+		currentGame = new GameState(gameStatus.gamesInitialized++)
 	}
 
 	/*
@@ -131,7 +128,7 @@ wss.on('connection', function connection(ws) {
 				console.log('Player B closing: ' + e)
 			}
 		}
-		currentGame = new Game(gameStatus.gamesInitialized++)
+		currentGame = new GameState(gameStatus.gamesInitialized++)
 	})
 })
 
