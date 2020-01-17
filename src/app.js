@@ -1,24 +1,18 @@
-const express = require('express')
-const http = require('http')
-const websocket = require('ws')
-var path = require('path')
+import express from 'express'
+import http from 'http'
+import path from 'path'
+import websocket from 'ws'
 
-const gameStatus = require('./logic/statTracker')
-const Game = require('./logic/GameState')
-const { playerTurn } = require('./logic/logic')
-const messages = require('../public/shared-js/messages')
-const { COLOUR } = require('../public/shared-js/structs')
-const { PORT } = require('../public/shared-js/consts')
-const { generateEmptyBoardArray } = require('./logic/utils')
-
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/lib/index.js'
+import { GameState, playerTurn, gameStatus } from './logic/index.js'
 
 const router = express.Router()
 const app = express()
 
-app.set('views', path.join(__dirname, '../public/views'))
+app.set('views', path.join(path.resolve(), '/public/views'))
 
 app.set('view engine', 'ejs')
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(path.resolve(), '/public')))
 
 router.get('/play', function(req, res) {
 	res.render('game.ejs')
@@ -52,7 +46,7 @@ setInterval(function() {
 	}
 }, 50000)
 
-let currentGame = new Game(gameStatus.gamesInitialized++)
+let currentGame = new GameState(gameStatus.gamesInitialized++)
 let connectionID = 0 //each websocket receives a unique ID
 
 wss.on('connection', function connection(ws) {
@@ -74,18 +68,23 @@ wss.on('connection', function connection(ws) {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType === COLOUR.black ? messages.S_PLAYER_W : messages.S_PLAYER_B)
+	con.send(playerType === COLOUR.black ? S_PLAYER_W : S_PLAYER_B)
 
+	const boardMsg = O_BOARD
+	boardMsg.data = currentGame.getBoard()
+	
+	con.send(JSON.stringify(boardMsg))
 	/*
    * once we have two players, there is no way back;
    * a new game object is created;
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		let outgoingMessage = messages.O_GAME_START
-		outgoingMessage.data = currentGame.getBoard()
+		let outgoingMessage = O_GAME_START
+		// outgoingMessage.data = currentGame.getBoard()
+		// console.log(outgoingMessage)
 		con.send(JSON.stringify(outgoingMessage))
-		currentGame = new Game(gameStatus.gamesInitialized++)
+		currentGame = new GameState(gameStatus.gamesInitialized++)
 	}
 
 	/*
@@ -129,7 +128,7 @@ wss.on('connection', function connection(ws) {
 				console.log('Player B closing: ' + e)
 			}
 		}
-		currentGame = new Game(gameStatus.gamesInitialized++)
+		currentGame = new GameState(gameStatus.gamesInitialized++)
 	})
 })
 

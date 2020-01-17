@@ -1,25 +1,23 @@
-const { T_GAME_START, T_MOVE_PIECE } = require('../../public/shared-js/messages')
-const GameState = require('./GameState')
-const Messages = require('../../public/shared-js/messages')
-const Structs = require('../../public/shared-js/structs')
+import { ChessPiece, Position, TYPES, COLOUR, T_GAME_START, T_MOVE_PIECE } from '../../public/lib/index.js'
+import { GameState } from './index.js'
 
 /**
- * @param {Structs.ChessPiece[][]} gameBoard
- * @param {Structs.ChessPiece} piece
+ * @param {ChessPiece[][]} gameBoard
+ * @param {ChessPiece} piece
  * @returns {void}
  */
-const updateAvailableMoves = (gameBoard, piece) => {
+export const updateAvailableMoves = (gameBoard, piece) => {
 	gameBoard.map(arr => arr.map())
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {ChessPiece[][]} board
+ * @param {ChessPiece} piece 
+ * @param {Position} end 
  * @return {boolean}
  */
-const validateMove = (board, piece, end) => {
-	let start = new Structs.CPPosition(piece.position.x, piece.position.y)
+export const validateMove = (board, piece, end) => {
+	let start = new Position(piece.position.x, piece.position.y)
 
 	switch (piece.type) {
 		case TYPES.pawn:
@@ -47,12 +45,13 @@ const validateMove = (board, piece, end) => {
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {ChessPiece[][]} board
+ * @param {string} colour
+ * @param {Position} start 
+ * @param {Position} end
  * @returns {boolean}
  */
-const pawnLogic = (board, piece, end) => {
+const pawnLogic = (board, colour, start, end) => {
 	let direction = (colour === 'BLACK') ? -1 : 1
 
 	if (start.x === end.x) {
@@ -61,9 +60,9 @@ const pawnLogic = (board, piece, end) => {
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Chesspiece} piece 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const rookLogic = (board, piece, end) => isStraight(start, end)
@@ -71,25 +70,25 @@ const rookLogic = (board, piece, end) => isStraight(start, end)
 	: false
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.CPPosition} position 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Position} position 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const rookLogicHelper = (board, colour, pos, end) => false
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Chesspiece} piece 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const knightLogic = (board, piece, end) => false
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Chesspiece} piece 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const bishopLogic = (board, piece, end) => isDiagonal(start, end)
@@ -97,9 +96,9 @@ const bishopLogic = (board, piece, end) => isDiagonal(start, end)
 	: false
 
 /**
- * @param {Structs.ChessPiece[][]} board
- * @param {Structs.CPPosition} curr 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board
+ * @param {Position} curr 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const bishopHelper = (board, piece, end) => {
@@ -107,9 +106,9 @@ const bishopHelper = (board, piece, end) => {
 }
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.ChessPiece} piece 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Chesspiece} piece 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const queenLogic = (board, piece, end) => !containsPieceColour(end, piece.colour)
@@ -119,17 +118,17 @@ const queenLogic = (board, piece, end) => !containsPieceColour(end, piece.colour
 
 /**
  * 
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.CPPosition} curr 
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Position} curr 
+ * @param {Position} end 
  * @returns {boolean}
  */
 const queenLogicHelper = (board, piece, end) => false
 
 /**
- * @param {Structs.ChessPiece[][]} board 
- * @param {Structs.ChessPiece} piece
- * @param {Structs.CPPosition} end 
+ * @param {Chesspiece[][]} board 
+ * @param {Chesspiece} piece
+ * @param {Position} end 
  * @returns {boolean}
  */
 const kingLogic = (board, piece, end) => !containsPieceColour(piece.colour, end)
@@ -137,31 +136,35 @@ const kingLogic = (board, piece, end) => !containsPieceColour(piece.colour, end)
 	: false
 
 /**
- * @param {Structs.CPPosition} pos1 
- * @param {Structs.CPPosition} pos2 
+ * @param {Position} pos1 
+ * @param {Position} pos2 
  * @returns {boolean}
  */
 const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y - pos2.y)
 
 /**
- * @param {Structs.CPPosition} pos1 
- * @param {Structs.CPPosition} pos2 
+ * @param {Position} pos1 
+ * @param {Position} pos2 
  * @returns {boolean}
  */
 const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
 
 /**
- * @param {Structs.CPPosition} pos 
- * @param {Structs.CPCOLOUR} colour
+ * @param {Position} pos 
+ * @param {COLOUR} colour
  * @returns {boolean}
  */
 const containsPieceColour = (pos, colour) => board[pos.x][pos.y]
 	? board[pos.x][pos.y].colour === colour
 	: false
 
-const playerTurn = (gameObject, message, connection) => {
+/**
+ * @param {GameState} gameObject 
+ * @param {object} message
+ * @param {WebSocket} connection
+ */
+export const playerTurn = (gameObject, message, connection) => {
 
-	/** @type Game */
 	let game = gameObject
 
 	let isCurrentPlayer = game.playerW == connection ? true : false
@@ -175,8 +178,6 @@ const playerTurn = (gameObject, message, connection) => {
 
 	}
 }
-
-module.exports = { playerTurn, validateMove }
 
 // 	if (isPlayerW) {
 // 		/*

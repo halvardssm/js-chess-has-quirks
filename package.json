@@ -2,6 +2,7 @@
   "name": "chess-has-quirks",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "node src/app.js",
     "lint": "eslint --quiet --fix --ext .js src/ public/"
@@ -17,5 +18,8 @@
   },
   "devDependencies": {
     "eslint": "~6.7.2"
+  },
+  "engines": {
+    "node": ">=0.13.0"
   }
 }
