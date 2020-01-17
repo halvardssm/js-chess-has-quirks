@@ -2,26 +2,38 @@ import express from 'express'
 import http from 'http'
 import path from 'path'
 import websocket from 'ws'
+import cookies from 'cookie-parser'
 
 import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/lib/index.js'
-import { GameState, playerTurn, gameStatus } from './logic/index.js'
+import { GameState, playerTurn, gameStatus, COOKIE_SECRET, COOKIE_VISITED } from './logic/index.js'
 
 const router = express.Router()
 const app = express()
+
+app.use(cookies(COOKIE_SECRET))
 
 app.set('views', path.join(path.resolve(), '/public/views'))
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(path.resolve(), '/public')))
 
-router.get('/play', function(req, res) {
+router.get('/play', (req, res) => {
 	res.render('game.ejs')
 })
 
 router.get('/', (req, res) => {
+	let visited = req.cookies[COOKIE_VISITED]
+
+	if(!visited){
+		res.cookie(COOKIE_VISITED, 1)
+	} else {
+		res.cookie(COOKIE_VISITED, ++visited)
+	}
+
 	res.render('splash.ejs', {
-		gamesInitialized: gameStatus.gamesInitialized,
-		gamesCompleted: gameStatus.gamesCompleted
+		gamesPlayed:  gameStatus.gamesPlayed,
+		gamesWon:     gameStatus.gamesWon,
+		timesVisited: visited,
 	})
 })
 

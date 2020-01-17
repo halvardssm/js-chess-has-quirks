@@ -2,4 +2,4 @@
 
 1. To run: `npm start`
 
-Access locally on `localhost:3000`
+Access locally on `localhost:2000`
