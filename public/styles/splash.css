@@ -1,0 +1,28 @@
+@import "./style.css";
+/* 
+    Pseudo-classes :hover and :active
+    At least two different position attributes, e.g. position:relative and position:absolute
+    At least one CSS animation and one CSS transition. */
+
+.stats {
+  border: 1px solid black;
+  width: fit-content;
+  padding: 0 15px;
+  margin: 50px auto;
+}
+.button-wrapper {
+  width: fit-content;
+  margin: 50px auto;
+}
+.button {
+  height: 100px;
+  width: 100px;
+  color: black;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 5px;
+}
+.button:hover {
+  background-color: #99cc00;
+  color: white;
+}

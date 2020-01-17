@@ -1,3 +1,9 @@
+@import "./style.css";
+
+.game-board-wrapper {
+  width: fit-content;
+  margin: 50px auto;
+}
 #game-board {
   max-width: 800px;
   width: 50%;
