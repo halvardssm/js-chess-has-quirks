@@ -8,6 +8,9 @@
   max-width: 800px;
   width: 50%;
 }
+.board {
+  border: 1px solid black;
+}
 
 .col {
   width: 50px;
@@ -26,4 +29,10 @@
 }
 .black {
   background-color: sienna;
+}
+
+.available-move {
+  background-color: chartreuse;
+  border-radius: 50%;
+  cursor: pointer;
 }
