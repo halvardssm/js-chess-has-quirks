@@ -4,9 +4,16 @@ import { GameState } from './index.js'
 /**
  * @param {ChessPiece[][]} gameBoard
  * @param {ChessPiece} piece
+ * @returns {Position[]}
  */
-export function* updateAvailableMoves(gameBoard, piece) {
-	yield gameBoard.map((arr, i) => arr.map((_, j) => { if (validateMove(gameBoard, piece, new Position(i, j))) return new Position(i, j) }))
+export function updateAvailableMoves(gameBoard, piece) {
+	let moves = []
+	gameBoard.map((arr, i) => arr.map((_, j) => {
+		let pos = new Position(i, j)
+		if (validateMove(gameBoard, piece, pos)) moves.push(pos)
+	}))
+
+	return moves
 }
 
 /**
@@ -16,8 +23,6 @@ export function* updateAvailableMoves(gameBoard, piece) {
  * @return {boolean}
  */
 export const validateMove = (board, piece, end) => {
-	let start = new Position(piece.position.x, piece.position.y)
-
 	switch (piece.type) {
 		case TYPES.pawn:
 			return pawnLogic(board, piece, end)
@@ -53,21 +58,22 @@ export const validateMove = (board, piece, end) => {
 const pawnLogic = (board, piece, end) => {
 	let start = piece.position
 	// Assert that target position does not contain a friendly unit
-	if (containsPieceColour(end, piece.colour)) return false
+	if (containsPieceColour(board, end, piece.colour)) return false
 
 	// Assert that pawn can only move diagonally by one 
 	if (end.x > start.x + 1 || end.x < start.x - 1) return false
 
 	// Assert that pawns can only attack diagonally
-	if (isStraight(start, end) && containsPieceColour(end, getOppositiveColour(piece.colour))) return false
+	if (isStraight(start, end) && containsPieceColour(board, end, getOppositiveColour(piece.colour))) return false
 
 	// Assert that pawns can only move "forwards"
 	let direction = (piece.colour === 'WHITE') ? 1 : -1
 	if (direction > 0) { if (end.y < start.y) return false }
 	else { if (end.y > start.y) return false }
 
-	return bresenham(board, piece.position, end)
 
+	return false
+	// return bresenham(board, piece.position, end)
 }
 
 /**
@@ -78,7 +84,7 @@ const pawnLogic = (board, piece, end) => {
  * Rooks can only move straight - barred by collision
  */
 const rookLogic = (board, piece, end) => isStraight(piece.position, end)
-	? bresenham(board, piece.position, end)
+	? false //bresenham(board, piece.position, end)
 	: false
 
 /**
@@ -107,7 +113,7 @@ const knightLogic = (board, piece, end) => false
  * Bishops can only move diagonally - barring collision
  */
 const bishopLogic = (board, piece, end) => isDiagonal(piece.position, end)
-	? bresenham(board, piece.position, end)
+	? false //bresenham(board, piece.position, end)
 	: false
 
 /**
@@ -128,9 +134,9 @@ const bishopHelper = (board, curr, end) => {
  * @returns {boolean}
  * Queens can move in any single direction and to any range - barring collision
  */
-const queenLogic = (board, piece, end) => !containsPieceColour(end, piece.colour)
+const queenLogic = (board, piece, end) => !containsPieceColour(board, end, piece.colour)
 	&& (isDiagonal(piece.position, end) || isStraight(piece.position, end))
-	? bresenham(board, piece.position, end)
+	? false //bresenham(board, piece.position, end)
 	: false
 
 /**
@@ -150,8 +156,8 @@ const queenLogicHelper = (board, piece, end) => false
  * @returns {boolean}
  * Kings can move in any direction but only by one
  */
-const kingLogic = (board, piece, end) => !containsPieceColour(piece.colour, end)
-	? (Math.abs(end.x - start.x) <= 1 && Math.abs(end.y - start.y) <= 1)
+const kingLogic = (board, piece, end) => !containsPieceColour(board, end, piece.colour)
+	? (Math.abs(end.x - piece.position.x) <= 1 && Math.abs(end.y - piece.position.y) <= 1)
 	: false
 
 /**
@@ -200,13 +206,15 @@ const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y
 const isStraight = (pos1, pos2) => (pos1.x === pos2.x) || (pos1.y === pos2.y)
 
 /**
+ * @param {ChessPiece[][]} board
  * @param {Position} pos 
  * @param {COLOUR} colour
  * @returns {boolean}
  */
-const containsPieceColour = (pos, colour) => board[pos.x][pos.y]
+const containsPieceColour = (board, pos, colour) => board[pos.x][pos.y]
 	? board[pos.x][pos.y].colour === colour
 	: false
+
 
 /**
  * @param {COLOUR} colour

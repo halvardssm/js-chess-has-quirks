@@ -25,14 +25,15 @@ export class Position {
 
 export class ChessPiece {
 	/**
-		 * @param {string} type 
-		 * @param {string} colour 
+		 * @param {TYPES} type 
+		 * @param {COLOUR} colour 
 		 * @param {Position} position 
 		 */
 	constructor(type, colour, position) {
 		this.type = type
 		this.colour = colour
 		this.position = position
+		/**@type Position[] */
 		this.availableMoves = []
 	}
 
@@ -45,9 +46,10 @@ export class ChessPiece {
 	}
 
 	/**
-	 * @param  {...Position} moves 
+	 * @param  {Position[]} moves 
 	 */
-	updateValidMoves(...moves) {
+	updateValidMoves(moves) {
+		console.log('updateValidMoves')
 		this.availableMoves = moves
 	}
 }
