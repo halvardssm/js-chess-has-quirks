@@ -13,7 +13,6 @@ export class GameState {
 		/** @type ChessPiece[][] */
 		this.gameBoard = generateEmptyBoardArray()
 		this.winner = null
-		this.initValidMoves()
 	}
 
 	hasTwoConnectedPlayers() {
