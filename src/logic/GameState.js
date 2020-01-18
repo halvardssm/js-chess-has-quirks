@@ -33,6 +33,10 @@ export class GameState {
 		}
 	}
 
+	movePiece() {
+		//TODO
+	}
+
 	getWinner() {
 		return this.winner
 	}

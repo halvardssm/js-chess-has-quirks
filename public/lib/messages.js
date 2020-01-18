@@ -51,5 +51,8 @@ export const O_GAME_OVER = {
 export const T_MOVE_PIECE = 'MOVE-PIECE'
 export const O_MOVE_PIECE = {
 	type: T_MOVE_PIECE,
-	data: null
+	data: {
+		from: null,
+		to:   null
+	}
 }

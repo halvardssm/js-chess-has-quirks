@@ -34,5 +34,4 @@ export const modifyClassName = (el, className, remove = false) => {
 	}
 
 	el.className = classArray.join(' ')
-	console.log(remove, classArray, el.className)
 }

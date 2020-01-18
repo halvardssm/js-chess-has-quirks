@@ -1,4 +1,4 @@
-import { Position } from '../lib/index.js'
+import { Position, O_MOVE_PIECE } from '../lib/index.js'
 import { modifyClassName } from '../lib/index.js'
 
 const CLASS_AVAILABLE_MOVE = 'available-move'
@@ -16,7 +16,6 @@ export default class Game {
 
 	setBoardArray(boardArray){
 		console.log('setting board array')
-		console.log(boardArray)
 		let counter = 0
 		this.boardArray = boardArray.map(arr => arr.map(el => {if(el !== null){el.availableMoves.push(new Position(counter++ % 2 ? 5 : 4, 3))}return el}))
 	}
@@ -34,9 +33,7 @@ export default class Game {
 
 	}
 
-
-
-	generateBoard() {
+	generateBoard(ws) {
 		console.log('generating board')
 
 		let counter = 0
@@ -59,18 +56,27 @@ export default class Game {
 							const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
 
 							modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, availableCell.className.includes(CLASS_AVAILABLE_MOVE))
+
+							availableCell.addEventListener('click', (ev) => {
+								const msg = O_MOVE_PIECE
+
+								msg.data.from = el.position
+								msg.data.to = new Position(pos.x, pos.y)
+								ws.send(JSON.stringify(msg))
+							})
 						})
 
 						const availableCells = document.getElementsByClassName(CLASS_AVAILABLE_MOVE)
-						console.log(availableCells)
 						
-						// for (let availableCell of availableCells) {
-						// 	console.log(el.availableMoves.includes(new Position(parseInt(availableCell.id.split('-').pop()[0]), parseInt(availableCell.id.split('-').pop()[1]))))
-						// 	if(!el.availableMoves.includes(new Position(parseInt(availableCell.id.split('-').pop()[0]), parseInt(availableCell.id.split('-').pop()[1])))){
-						// 		modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, true)
-						// 	}
-						// }
-						//TODO: add logic for showing available moves
+						for (let availableCell of availableCells) {
+							const pos = new Position(parseInt(availableCell.id.split('-').pop()[0]), parseInt(availableCell.id.split('-').pop()[1]))
+
+							const exist = el.availableMoves.find(elPos => elPos.x === pos.x && elPos.y === pos.y)
+
+							if(!exist){
+								modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, true)
+							}
+						}
 					})
 
 					const svg = document.createElement('img')

@@ -13,7 +13,7 @@ socket.onmessage = (incomingMsg) => {
 		case T_MOVE_PIECE:
 			console.log('2')
 
-			game.generateBoard()
+			game.generateBoard(socket)
 
 			break
 
@@ -27,7 +27,7 @@ socket.onmessage = (incomingMsg) => {
 
 		case T_BOARD:
 			game.setBoardArray(message.data)
-			game.generateBoard()
+			game.generateBoard(socket)
 			
 			break
 		case T_PLAYER_TYPE:
