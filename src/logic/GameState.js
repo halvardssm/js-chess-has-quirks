@@ -1,5 +1,4 @@
-import { COLOUR, ChessPiece } from '../../public/lib/index.js'
-import { generateEmptyBoardArray } from './index.js'
+import { COLOUR, ChessPiece, generateEmptyBoardArray } from '../../public/lib/index.js'
 import { updateAvailableMoves } from './logic.js'
 
 export class GameState {
