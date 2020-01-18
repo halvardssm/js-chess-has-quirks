@@ -6,7 +6,7 @@ import { GameState } from './index.js'
  * @param {ChessPiece} piece
  */
 export function* updateAvailableMoves(gameBoard, piece) {
-	yield gameBoard.map((arr, i) => arr.map((_, j) => { if (validateMove(gameBoard, piece, target)) return new Position(i, j) }))
+	yield gameBoard.map((arr, i) => arr.map((_, j) => { if (validateMove(gameBoard, piece, new Position(i, j))) return new Position(i, j) }))
 }
 
 /**
@@ -77,7 +77,7 @@ const pawnLogic = (board, piece, end) => {
  * @returns {boolean}
  * Rooks can only move straight - barred by collision
  */
-const rookLogic = (board, piece, end) => isStraight(start, end)
+const rookLogic = (board, piece, end) => isStraight(piece.position, end)
 	? bresenham(board, piece.position, end)
 	: false
 
@@ -106,7 +106,7 @@ const knightLogic = (board, piece, end) => false
  * @returns {boolean}
  * Bishops can only move diagonally - barring collision
  */
-const bishopLogic = (board, piece, end) => isDiagonal(start, end)
+const bishopLogic = (board, piece, end) => isDiagonal(piece.position, end)
 	? bresenham(board, piece.position, end)
 	: false
 
@@ -168,7 +168,10 @@ const bresenham = (board, start, end) => {
 	let sy = (curr.y < end.y) ? 1 : -1
 	let err = dx - dy
 
-	while (true) {
+	let con = 0
+	let exit = 1
+
+	while (con < exit) {
 		// Done with collision detection
 		if ((curr.x === end.x) && (curr.x === end.y)) break
 		// If there's a piece in the way, then the move is not valid
@@ -194,7 +197,7 @@ const isDiagonal = (pos1, pos2) => Math.abs(pos1.x - pos2.x) === Math.abs(pos1.y
  * @param {Position} pos2 
  * @returns {boolean}
  */
-const isStraight = (pos1, pos2) => pos1.x === pos2.x || pos1.y === pos2.y
+const isStraight = (pos1, pos2) => (pos1.x === pos2.x) || (pos1.y === pos2.y)
 
 /**
  * @param {Position} pos 
@@ -237,11 +240,10 @@ export const playerTurn = (gameObject, message, connection) => {
 
 	switch (message.type) {
 		case T_GAME_START:
-
-
 			break
-		case T_MOVE_PIECE:
 
+		case T_MOVE_PIECE:
+			break
 	}
 }
 
