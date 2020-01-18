@@ -11,14 +11,12 @@ socket.onmessage = (incomingMsg) => {
 	console.log(message)
 	switch (message.type) {
 		case T_MOVE_PIECE:
-			console.log('2')
 
 			game.generateBoard(socket)
 
 			break
 
 		case T_GAME_START:
-			console.log('3')
 
 			if(game.getPlayerType() === COLOUR.white){
 				game.enableBoard()
@@ -31,12 +29,10 @@ socket.onmessage = (incomingMsg) => {
 			
 			break
 		case T_PLAYER_TYPE:
-			console.log('4')
 
 			game.setPlayerType(message.data)
 			return
 	}
-	console.log('5')
 
 }
 
