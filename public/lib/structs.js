@@ -1,10 +1,10 @@
 export const TYPES = {
-	pawn: 'PAWN',
-	rook: 'ROOK',
+	pawn:   'PAWN',
+	rook:   'ROOK',
 	knight: 'KNIGHT',
 	bishop: 'BISHOP',
-	queen: 'QUEEN',
-	king: 'KING'
+	queen:  'QUEEN',
+	king:   'KING'
 }
 
 export const COLOUR = {
@@ -25,8 +25,8 @@ export class Position {
 
 export class ChessPiece {
 	/**
-		 * @param {TYPES} type 
-		 * @param {COLOUR} colour 
+		 * @param {string} type 
+		 * @param {string} colour 
 		 * @param {Position} position 
 		 */
 	constructor(type, colour, position) {
@@ -49,7 +49,6 @@ export class ChessPiece {
 	 * @param  {Position[]} moves 
 	 */
 	updateValidMoves(moves) {
-		console.log('updateValidMoves')
 		this.availableMoves = moves
 	}
 }

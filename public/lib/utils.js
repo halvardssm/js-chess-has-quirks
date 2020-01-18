@@ -1,4 +1,4 @@
-import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES } from './index.js'
+import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE_PIECE } from './index.js'
 
 /**
  	* @param {number} x
@@ -35,3 +35,29 @@ export const modifyClassName = (el, className, remove = false) => {
 
 	el.className = classArray.join(' ')
 }
+
+/**
+ * @param {any} gameObject 
+ * @param {object} message
+ * @param {WebSocket} connection
+ */
+export const playerTurn = (gameObject, message, connection) => {
+
+	let game = gameObject
+
+	let isCurrentPlayer = game.playerW === connection
+
+	switch (message.type) {
+		case T_GAME_START:
+			break
+
+		case T_MOVE_PIECE:
+			break
+	}
+}
+
+/**
+ * @param {ChessPiece} piece 
+ * @return {-1|1}
+ */
+export const getDirection = (piece) => piece.colour === COLOUR.white ? 1 : -1

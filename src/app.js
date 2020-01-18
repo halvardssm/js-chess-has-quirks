@@ -4,8 +4,8 @@ import path from 'path'
 import websocket from 'ws'
 import cookies from 'cookie-parser'
 
-import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START } from '../public/lib/index.js'
-import { GameState, playerTurn, gameStatus, COOKIE_SECRET, COOKIE_VISITED } from './logic/index.js'
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START, playerTurn } from '../public/lib/index.js'
+import { GameState, gameStatus, COOKIE_SECRET, COOKIE_VISITED } from './logic/index.js'
 
 const router = express.Router()
 const app = express()
@@ -61,7 +61,7 @@ setInterval(function() {
 let currentGame = new GameState(gameStatus.gamesInitialized++)
 let connectionID = 0 //each websocket receives a unique ID
 
-wss.on('connection', function connection(ws) {
+wss.on('connection', (ws) => {
 	/*
    * two-player game: every two players are added to the same game
    */

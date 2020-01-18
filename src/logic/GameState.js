@@ -1,5 +1,5 @@
-import { COLOUR, ChessPiece, generateEmptyBoardArray, Position } from '../../public/lib/index.js'
-import { updateAvailableMoves } from './logic.js'
+import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, getDirection } from '../../public/lib/index.js'
+import { getValidMoves } from './index.js'
 
 export class GameState {
 
@@ -52,10 +52,10 @@ export class GameState {
 		this.gameBoard.map(arr => arr
 			.filter(Boolean)
 			.map(cp => {
-				console.log('updateValidMoves')
-				cp.updateValidMoves(
-					updateAvailableMoves(this.gameBoard, cp)
-				)
+				const validMoves = getValidMoves(this.gameBoard, cp)
+				console.log(validMoves)
+				cp.updateValidMoves(validMoves)
+				return cp
 			}))
 	}
 }

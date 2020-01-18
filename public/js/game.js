@@ -17,7 +17,8 @@ export default class Game {
 	setBoardArray(boardArray){
 		console.log('setting board array')
 		let counter = 0
-		this.boardArray = boardArray.map(arr => arr.map(el => {if(el !== null){el.availableMoves.push(new Position(counter++ % 2 ? 5 : 4, 3))}return el}))
+		this.boardArray = boardArray
+		// this.boardArray = boardArray.map(arr => arr.map(el => {if(el !== null){el.availableMoves.push(new Position(counter++ % 2 ? 5 : 4, 3))}return el}))
 	}
 
 	getPlayerType(){
@@ -48,7 +49,7 @@ export default class Game {
 				const cell = document.createElement('div')
 				cell.className = `col ${counter++ % 2 ? 'white' : 'black'}`
 				cell.id = `cell-${x}${y}`
-				if(el){
+				if(el !==null&&el!==undefined){
 					cell.className += ' piece'
 					cell.addEventListener('click', (e) => {
 						
