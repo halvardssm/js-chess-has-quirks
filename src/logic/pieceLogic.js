@@ -9,31 +9,29 @@ import { GameState } from './index.js'
 export const getValidMoves = (board, piece) => {
 	/** @type {Position[]} */
 	const validMoves = []
+
 	/** @type {-1|1} */
 	const direction = getDirection(piece)
+
 	const pieceProps = getPieceProps(piece)
 
 	const moveProps = { board, piece, direction, validMoves, oneStep: pieceProps.oneStep }
 
-	if(pieceProps.knight){
+	if (pieceProps.knight) {
 		moveKnight(moveProps)
 		return validMoves
 	}
-	if(pieceProps.fw){
-		moveVertical(moveProps)
-		
-	}
-	if(pieceProps.bw){
+	if (pieceProps.fw) moveVertical(moveProps)
+
+	if (pieceProps.bw) {
 		moveProps.direction *= -1
 		moveVertical(moveProps)
 		moveProps.direction *= -1
 	}
-	if(pieceProps.horisontal){
-		moveHorisontal(moveProps)
-	}
-	if(pieceProps.diagonal){
-		moveDiagonal(moveProps)
-	}
+
+	if (pieceProps.horisontal) moveHorisontal(moveProps)
+
+	if (pieceProps.diagonal) moveDiagonal(moveProps)
 
 	return validMoves
 }
@@ -57,9 +55,7 @@ const moveKnight = ({ board, piece, validMoves }) => {
 	possibleMoves.forEach(el => {
 		const dx = piece.position.x + el.x
 		const dy = piece.position.y + el.y
-		if(validate(piece, board, dx, dy)){
-			validMoves.push(new Position(dx, dy))
-		}
+		if (validate(piece, board, dx, dy)) validMoves.push(new Position(dx, dy))
 	})
 }
 
@@ -71,15 +67,13 @@ const moveVertical = ({ board, piece, direction, validMoves, oneStep }) => {
 	const dx = piece.position.x
 	let dy = piece.position.y + direction
 
-	do{
-		if(validate(piece, board, dx, dy)){
+	do {
+		if (validate(piece, board, dx, dy)) {
 			validMoves.push(new Position(dx, dy))
 			dy += direction
-		} else {
-			return
-		}
-	} while(!oneStep)
-	
+		} else return
+	} while (!oneStep)
+
 }
 
 /**
@@ -91,17 +85,15 @@ const moveHorisontal = ({ board, piece, validMoves, oneStep }) => {
 	let nx = piece.position.x - 1
 	const dy = piece.position.y
 
-	do{
-		if(validate(piece, board, px, dy)){
+	do {
+		if (validate(piece, board, px, dy)) {
 			validMoves.push(new Position(px, dy))
 			px++
-		} else if(validate(piece, board, nx, dy)){
+		} else if (validate(piece, board, nx, dy)) {
 			validMoves.push(new Position(nx, dy))
 			nx++
-		}else {
-			return
-		}
-	} while(!oneStep)
+		} else return
+	} while (!oneStep)
 }
 
 /**
@@ -124,35 +116,33 @@ const moveDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 	let nxr = piece.position.x + 1
 	let nyr = piece.position.y - direction
 
-	do{
+	do {
 		//fw-left
-		if(validate(piece, board, pxl, pyl)){
+		if (validate(piece, board, pxl, pyl)) {
 			validMoves.push(new Position(pxl, pyl))
-			pxl--
+			pxl -= 1
 			pyl += direction
-			
-		//fw-right
-		} else if(validate(piece, board, pxr, pyr)){
+
+			//fw-right
+		} else if (validate(piece, board, pxr, pyr)) {
 			validMoves.push(new Position(pxr, pyr))
-			pxr++
+			pxr += 1
 			pyr += direction
 
-		//dw-left
-		} else if(validate(piece, board, nxl, nyl, true)){
+			//dw-left
+		} else if (validate(piece, board, nxl, nyl, true)) {
 			validMoves.push(new Position(nxl, nyl))
-			nxl--
+			nxl -= 1
 			nyl -= direction
 
-		//dw-right
-		} else if(validate(piece, board, nxr, nyr, true)){
+			//dw-right
+		} else if (validate(piece, board, nxr, nyr, true)) {
 			validMoves.push(new Position(nxr, nyr))
-			nxr++
+			nxr += 1
 			nyr -= direction
 
-		}else {
-			return
-		}
-	} while(!oneStep)
+		} else return
+	} while (!oneStep)
 }
 
 /**
@@ -162,50 +152,39 @@ const moveDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
  * @param {number} y 
  * @return {boolean}
  */
-const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y) && (isDiagonal ? pawnDiagonalValidation(piece, board[x][y]) : true) && moveValidation(piece, board[x][y])
+const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y)
+	&& (
+		isDiagonal
+			? pawnDiagonalValidation(piece, board[x][y])
+			: true
+	)
+	&& moveValidation(piece, board[x][y])
 
 /**
  * @param {ChessPiece} piece 
  * @param {null|ChessPiece} cell 
  * @return {boolean}
  */
-const moveValidation = (piece, cell) => {
-	if(cell === null || cell === undefined){
-		return true
-	}
-	if(cell.colour !== piece.colour){
-		return true
-	}
-	return false
-}
+const moveValidation = (piece, cell) => !cell
+	? true
+	: (piece.colour !== cell.colour)
 
-const cellValidation = (x, y) => {
-	if(x < 0 || x > 7){
-		return false
-	}
-	if(y < 0 || y > 7){
-		return false
-	}
-	return true
-}
+
+const cellValidation = (x, y) => !(x < 0 || x > 7)
+	? true
+	: !(y < 0 || y > 7)
 
 /**
  * @param {ChessPiece} piece 
  * @param {null|ChessPiece} cell 
  * @return {boolean}
  */
-const pawnDiagonalValidation = (piece, cell) => {
-	if(piece.type !== TYPES.pawn){
-		return true
-	}
-	if(cell === null || cell === undefined){
-		return false
-	}
-	if(cell.colour !== piece.colour){
-		return true
-	}
-	return false
-}
+const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
+	? true
+	: (!cell
+		? true
+		: (piece.colour !== cell.colour)
+	)
 
 /**
  * @param {ChessPiece} piece 
@@ -213,12 +192,12 @@ const pawnDiagonalValidation = (piece, cell) => {
  */
 const getPieceProps = (piece) => {
 	const propArr = {
-		fw:         false,
-		bw:         false,
+		fw: false,
+		bw: false,
 		horisontal: false,
-		diagonal:   false,
-		knight:     false,
-		oneStep:    false
+		diagonal: false,
+		knight: false,
+		oneStep: false
 	}
 
 	switch (piece.type) {
@@ -226,7 +205,7 @@ const getPieceProps = (piece) => {
 			propArr.fw = true
 			propArr.diagonal = true
 			propArr.oneStep = true
-			break 
+			break
 
 		case TYPES.rook:
 			propArr.fw = true
