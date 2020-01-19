@@ -118,25 +118,25 @@ const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 
 	do {
 		//fw-left
-		if (validate(piece, board, pxl, pyl, true)){
+		if (validate(piece, board, pxl, pyl, true)) {
 			validMoves.push(new Position(pxl, pyl))
 			pxl -= 1
 			pyl += direction
-			
-		//fw-right
-		} else if (validate(piece, board, pxr, pyr, true)){
+
+			//fw-right
+		} else if (validate(piece, board, pxr, pyr, true)) {
 			validMoves.push(new Position(pxr, pyr))
 			pxr += 1
 			pyr += direction
 
-		//dw-left
-		} else if (validate(piece, board, nxl, nyl, true)){
+			//dw-left
+		} else if (validate(piece, board, nxl, nyl, true)) {
 			validMoves.push(new Position(nxl, nyl))
 			nxl -= 1
 			nyl -= direction
 
-		//dw-right
-		} else if (validate(piece, board, nxr, nyr, true)){
+			//dw-right
+		} else if (validate(piece, board, nxr, nyr, true)) {
 			validMoves.push(new Position(nxr, nyr))
 			nxr += 1
 			nyr -= direction
@@ -155,10 +155,10 @@ const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y)
 	&& (
 		isDiagonal
-			? pawnDiagonalValidation(piece, board[y][x])
+			? pawnDiagonalValidation(piece, board[x][y])
 			: true
 	)
-	&& moveValidation(piece, board[y][x])
+	&& moveValidation(piece, board[x][y])
 
 /**
  * @param {ChessPiece} piece 
@@ -190,12 +190,12 @@ const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
  */
 const getPieceProps = (piece) => {
 	const propArr = {
-		fw:         false,
-		bw:         false,
+		fw: false,
+		bw: false,
 		horisontal: false,
-		diagonal:   false,
-		knight:     false,
-		oneStep:    false
+		diagonal: false,
+		knight: false,
+		oneStep: false
 	}
 
 	switch (piece.type) {
@@ -203,7 +203,7 @@ const getPieceProps = (piece) => {
 			propArr.fw = true
 			propArr.diagonal = true
 			propArr.oneStep = true
-			break 
+			break
 
 		case TYPES.rook:
 			propArr.fw = true
