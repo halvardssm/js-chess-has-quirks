@@ -59,7 +59,13 @@ export class GameState {
 	 * @returns {void}
 	 */
 	movePiece(start, target) {
-		let piece = this.gameBoard[start.x][start.y]
+		//console.log(this.gameBoard[start.x][start.y])
+		let piece = new ChessPiece(
+			this.gameBoard[start.x][start.y].type,
+			this.gameBoard[start.x][start.y].colour,
+			this.gameBoard[start.x][start.y].position
+		)
+
 		this.gameBoard[start.x][start.y] = null
 		piece.move(target)
 		this.gameBoard[target.x][target.y] = piece

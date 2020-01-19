@@ -47,7 +47,7 @@ export const sendUpdatedBoard = (game) => {
 
 /**
  * @param {ChessPiece} piece 
- * @return {-1|1}
+ * @return {1 | -1}
  */
 export const getDirection = (piece) => piece.colour === COLOUR.white ? 1 : -1
 
