@@ -23,6 +23,7 @@
       "error",
       { "afterColon": true, "mode": "strict", "align": "value" }
     ],
+    "keyword-spacing": ["error", { "before": true, "after": true }],
     "eol-last": ["error", "always"],
     "no-undef": ["off"],
     "no-unused-vars": ["warn"],
