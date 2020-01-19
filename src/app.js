@@ -4,7 +4,7 @@ import path from 'path'
 import websocket from 'ws'
 import cookies from 'cookie-parser'
 
-import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START, playerTurn } from '../public/lib/index.js'
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START, playerTurn, S_YOUR_TURN } from '../public/lib/index.js'
 import { GameState, gameStatus, COOKIE_SECRET, COOKIE_VISITED } from './logic/index.js'
 
 const router = express.Router()
@@ -24,7 +24,7 @@ router.get('/play', (req, res) => {
 router.get('/', (req, res) => {
 	let visited = req.cookies[COOKIE_VISITED]
 
-	if(!visited){
+	if (!visited){
 		res.cookie(COOKIE_VISITED, 1)
 	} else {
 		res.cookie(COOKIE_VISITED, ++visited)
@@ -46,7 +46,7 @@ let websockets = {} //property: websocket, value: game
 /*
  * regularly clean up the websockets object
  */
-setInterval(function() {
+setInterval(() => {
 	for (let i in websockets) {
 		if (Object.prototype.hasOwnProperty.call(websockets, i)) {
 			let gameObj = websockets[i]
@@ -92,10 +92,7 @@ wss.on('connection', (ws) => {
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		let outgoingMessage = O_GAME_START
-		// outgoingMessage.data = currentGame.getBoard()
-		// console.log(outgoingMessage)
-		con.send(JSON.stringify(outgoingMessage))
+		currentGame.playerW.send(JSON.stringify(S_YOUR_TURN))
 		currentGame = new GameState(gameStatus.gamesInitialized++)
 	}
 
@@ -105,7 +102,7 @@ wss.on('connection', (ws) => {
    *  2. determine the opposing player OP
    *  3. send the message to OP
    */
-	con.on('message', function incoming(message) {
+	con.on('message', (message) => {
 		let oMsg = JSON.parse(message)
 
 		let gameObj = websockets[con.id]
@@ -113,14 +110,14 @@ wss.on('connection', (ws) => {
 		playerTurn(gameObj, oMsg, con)
 	})
 
-	con.on('close', function(code) {
+	con.on('close', (code) => {
 		/*
      * code 1001 means almost always closing initiated by the client;
      * source: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
      */
 		console.log(con.id + ' disconnected ...')
 
-		if (code == '1001') {
+		if (code === '1001') {
 			/*
        * if possible, abort the game; if not, the game is already completed
        */

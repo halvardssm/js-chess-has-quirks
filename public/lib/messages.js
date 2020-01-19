@@ -56,3 +56,8 @@ export const O_MOVE_PIECE = {
 		to:   null
 	}
 }
+export const T_YOUR_TURN = 'YOUR-TURN'
+export const O_YOUR_TURN = {
+	type: T_YOUR_TURN
+}
+export const S_YOUR_TURN = JSON.stringify(O_YOUR_TURN)

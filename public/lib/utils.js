@@ -1,4 +1,4 @@
-import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE_PIECE } from './index.js'
+import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE_PIECE, S_YOUR_TURN } from './index.js'
 
 /**
  	* @param {number} x
@@ -27,7 +27,7 @@ export const generateEmptyBoardArray = () => {
 export const modifyClassName = (el, className, remove = false) => {
 	let classArray = el.className.split(' ')
 
-	if(remove){
+	if (remove){
 		classArray = classArray.filter(cn => cn !== className)
 	} else {
 		classArray.push(className)
@@ -37,7 +37,7 @@ export const modifyClassName = (el, className, remove = false) => {
 }
 
 /**
- * @param {any} gameObject 
+ * @param {import('../../src/logic/index.js').GameState} gameObject 
  * @param {object} message
  * @param {WebSocket} connection
  */
@@ -45,13 +45,15 @@ export const playerTurn = (gameObject, message, connection) => {
 
 	let game = gameObject
 
-	let isCurrentPlayer = game.playerW === connection
+	let currentPlayerIsWhite = game.playerW === connection
 
 	switch (message.type) {
-		case T_GAME_START:
-			break
-
 		case T_MOVE_PIECE:
+			game.movePiece(...message.data)
+			game.playerW.send(JSON.stringify(game.getBoard()))
+			game.playerB.send(JSON.stringify(game.getBoard()))
+
+			currentPlayerIsWhite ? game.playerB.send(S_YOUR_TURN) : game.playerW.send(S_YOUR_TURN)
 			break
 	}
 }
