@@ -2,6 +2,7 @@
 
 .game-board-wrapper {
   width: fit-content;
+  width: -moz-fit-content;
   margin: 50px auto;
 }
 #game-board {
