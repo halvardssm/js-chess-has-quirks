@@ -1,7 +1,16 @@
-import { Position, O_MOVE_PIECE, COLOUR } from '../lib/index.js'
-import { modifyClassName } from '../lib/index.js'
+import { Position, O_MOVE_PIECE, COLOUR, modifyClassName } from '../lib/index.js'
+
+const ID_BOARD = 'board'
+const ID_CELL = 'cell'
 
 const CLASS_AVAILABLE_MOVE = 'available-move'
+const CLASS_PIECE = 'piece'
+const CLASS_ROW = 'row'
+const CLASS_COL = 'col'
+
+const EL_DIV = 'div'
+const EL_IMG = 'img'
+
 export default class Game {
 	constructor(socket){
 		this.socket = socket
@@ -19,11 +28,8 @@ export default class Game {
 		this.playerType = playerType
 	}
 
-	setBoardArray(boardArray){
-		console.log('setting board array')
-		let counter = 0
+	setBoardArray(boardArray){		
 		this.boardArray = boardArray
-		// this.boardArray = boardArray.map(arr => arr.map(el => {if(el !== null){el.availableMoves.push(new Position(counter++ % 2 ? 5 : 4, 3))}return el}))
 	}
 
 	getPlayerType(){
@@ -44,7 +50,7 @@ export default class Game {
 
 		let counter = 0
 
-		const board = document.getElementById('board')
+		const board = document.getElementById(ID_BOARD)
 
 		while (board.firstChild) {
 			board.removeChild(board.firstChild)
@@ -52,15 +58,15 @@ export default class Game {
 
 		this.boardArray.forEach((arr, x) => {
 
-			const row = document.createElement('div')
-			row.className = 'row'
+			const row = document.createElement(EL_DIV)
+			modifyClassName(row, CLASS_ROW)
 			
 			arr.forEach((el, y) => {
-				const cell = document.createElement('div')
-				cell.className = `col ${counter++ % 2 ? COLOUR.white.toLowerCase() : COLOUR.black.toLowerCase()}`
-				cell.id = `cell-${x}${y}`
-				if (el !== null && el !== undefined){
-					cell.className += ' piece'
+				const cell = document.createElement(EL_DIV)
+				modifyClassName(cell, `${CLASS_COL} ${counter++ % 2 ? COLOUR.white.toLowerCase() : COLOUR.black.toLowerCase()}`)
+				cell.id = `${ID_CELL}-${x}${y}`
+				if (el){
+					modifyClassName(cell, CLASS_PIECE)
 
 					if (this.isActivePlayer){
 						cell.addEventListener('click', (e) => {
@@ -93,7 +99,7 @@ export default class Game {
 						})
 					}
 
-					const svg = document.createElement('img')
+					const svg = document.createElement(EL_IMG)
 					svg.src = `assets/${el.type}_${el.colour}.svg`
 					cell.appendChild(svg)
 				}
