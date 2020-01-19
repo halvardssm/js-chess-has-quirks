@@ -50,7 +50,7 @@ export const playerTurn = (gameObject, message, connection) => {
 
 	switch (message.type) {
 		case T_MOVE_PIECE:
-			game.movePiece(...message.data)
+			game.movePiece(message.data.from, message.data.to)
 
 			sendUpdatedBoard(game)
 
