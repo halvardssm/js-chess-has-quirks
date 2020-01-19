@@ -18,6 +18,7 @@
 .button-wrapper {
   width: fit-content;
   margin: 50px auto;
+  width: -moz-fit-content;
 }
 .button {
   height: 100px;

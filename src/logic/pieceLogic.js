@@ -70,6 +70,8 @@ const validateVertical = ({ board, piece, direction, validMoves, oneStep }) => {
 	do {
 		if (validate(piece, board, dx, dy)) {
 			validMoves.push(new Position(dx, dy))
+			
+			if (board[dx][dy]) return
 			dy += direction
 		} else return
 	} while (!oneStep)
@@ -88,10 +90,13 @@ const validateHorisontal = ({ board, piece, validMoves, oneStep }) => {
 	do {
 		if (validate(piece, board, px, dy)) {
 			validMoves.push(new Position(px, dy))
-			px++
+
+			board[px][dy] ? px = 8 : px++
+
 		} else if (validate(piece, board, nx, dy)) {
 			validMoves.push(new Position(nx, dy))
-			nx++
+
+			board[nx][dy] ? nx = 8 : nx++
 		} else return
 	} while (!oneStep)
 }
@@ -120,24 +125,47 @@ const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 		//fw-left
 		if (validate(piece, board, pxl, pyl, true)) {
 			validMoves.push(new Position(pxl, pyl))
+
+			if (board[pxl][pyl]){
+				pxl = 9
+				pyl = 9
+			} 
 			pxl -= 1
 			pyl += direction
 
 			//fw-right
 		} else if (validate(piece, board, pxr, pyr, true)) {
 			validMoves.push(new Position(pxr, pyr))
+
+			if (board[pxr][pyr]){
+				pxr = 9
+				pyr = 9
+			} 
+
 			pxr += 1
 			pyr += direction
 
 			//dw-left
 		} else if (validate(piece, board, nxl, nyl, true)) {
 			validMoves.push(new Position(nxl, nyl))
+
+			if (board[nxl][nyl]){
+				nxl = 9
+				nyl = 9
+			} 
+
 			nxl -= 1
 			nyl -= direction
 
 			//dw-right
 		} else if (validate(piece, board, nxr, nyr, true)) {
 			validMoves.push(new Position(nxr, nyr))
+
+			if (board[nxr][nyr]){
+				nxr = 9
+				nyr = 9
+			} 
+
 			nxr += 1
 			nyr -= direction
 
@@ -150,14 +178,11 @@ const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
  * @param {ChessPiece[][]} board 
  * @param {number} x 
  * @param {number} y 
+ * @param {boolean} isDiagonal
  * @return {boolean}
  */
 const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y)
-	&& (
-		isDiagonal
-			? pawnDiagonalValidation(piece, board[x][y])
-			: true
-	)
+	&& pawnValidation(piece, board[x][y], isDiagonal)
 	&& moveValidation(piece, board[x][y])
 
 /**
@@ -180,14 +205,18 @@ const cellValidation = (x, y) => !(x < 0 || x > 7) && !(y < 0 || y > 7)
 /**
  * @param {ChessPiece} piece 
  * @param {null|ChessPiece} cell 
+ * @param {boolean} isDiagonal 
  * @return {boolean}
  */
-const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
-	? true
-	: (!cell
-		? false
-		: (piece.colour !== cell.colour)
-	)
+const pawnValidation = (piece, cell, isDiagonal) => {
+
+	if (piece.type !== TYPES.pawn) return true //if not pawn
+	if (cell && piece.colour === cell.colour) return false //if cell has same colour as piece
+	if (isDiagonal && !cell) return false //pawn cant move diagonally if it does not contain oponent piece
+	if (!isDiagonal && cell) return false //pawn cant move forward if there is a piece there
+
+	return true
+}
 
 /**
  * @param {ChessPiece} piece 

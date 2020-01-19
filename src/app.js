@@ -4,7 +4,7 @@ import path from 'path'
 import websocket from 'ws'
 import cookies from 'cookie-parser'
 
-import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, O_GAME_START, playerTurn, S_YOUR_TURN } from '../public/lib/index.js'
+import { PORT, COLOUR, S_PLAYER_W, S_PLAYER_B, O_BOARD, S_YOUR_TURN } from '../public/lib/index.js'
 import { GameState, gameStatus, COOKIE_SECRET, COOKIE_VISITED } from './logic/index.js'
 
 const router = express.Router()
@@ -80,7 +80,7 @@ wss.on('connection', (ws) => {
 	/*
    * inform the client about its assigned player type
    */
-	con.send(playerType === COLOUR.black ? S_PLAYER_W : S_PLAYER_B)
+	con.send(playerType === COLOUR.white ? S_PLAYER_W : S_PLAYER_B)
 
 	const boardMsg = O_BOARD
 	boardMsg.data = currentGame.getBoard()
@@ -105,9 +105,10 @@ wss.on('connection', (ws) => {
 	con.on('message', (message) => {
 		let oMsg = JSON.parse(message)
 
+		/** @type {GameState} */
 		let gameObj = websockets[con.id]
 
-		playerTurn(gameObj, oMsg, con)
+		gameObj.messageHandler(oMsg, con)
 	})
 
 	con.on('close', (code) => {
@@ -137,7 +138,6 @@ wss.on('connection', (ws) => {
 				console.log('Player B closing: ' + e)
 			}
 		}
-		currentGame = new GameState(gameStatus.gamesInitialized++)
 	})
 })
 

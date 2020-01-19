@@ -42,8 +42,6 @@ export default class Game {
 	}
 
 	generateBoard(ws) {
-		console.log('generating board')
-
 		let counter = 0
 
 		const board = document.getElementById(ID_BOARD)
@@ -68,7 +66,6 @@ export default class Game {
 						modifyClassName(cell, CLASS_ENABLED)
 
 						cell.addEventListener('click', (e) => {
-							console.log('yey')
 							el.availableMoves.forEach(pos => {
 								const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
 
