@@ -1,4 +1,5 @@
 import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE_PIECE, S_YOUR_TURN } from './index.js'
+import { O_BOARD } from './messages.js'
 
 /**
  	* @param {number} x
@@ -50,12 +51,20 @@ export const playerTurn = (gameObject, message, connection) => {
 	switch (message.type) {
 		case T_MOVE_PIECE:
 			game.movePiece(...message.data)
-			game.playerW.send(JSON.stringify(game.getBoard()))
-			game.playerB.send(JSON.stringify(game.getBoard()))
+
+			sendUpdatedBoard(game)
 
 			currentPlayerIsWhite ? game.playerB.send(S_YOUR_TURN) : game.playerW.send(S_YOUR_TURN)
 			break
 	}
+}
+
+const sendUpdatedBoard = (game) => {
+	const boardMessage = O_BOARD
+	boardMessage.data = game.getBoard()
+
+	game.playerW.send(JSON.stringify(boardMessage))
+	game.playerB.send(JSON.stringify(boardMessage))
 }
 
 /**
