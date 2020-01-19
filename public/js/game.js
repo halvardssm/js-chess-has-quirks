@@ -7,6 +7,7 @@ const CLASS_AVAILABLE_MOVE = 'available-move'
 const CLASS_PIECE = 'piece'
 const CLASS_ROW = 'row'
 const CLASS_COL = 'col'
+const CLASS_ENABLED = 'enabled'
 
 const EL_DIV = 'div'
 const EL_IMG = 'img'
@@ -63,9 +64,11 @@ export default class Game {
 				if (el){
 					modifyClassName(cell, CLASS_PIECE)
 
-					if (this.isActivePlayer){
+					if (this.isActivePlayer && el.colour === this.playerType){
+						modifyClassName(cell, CLASS_ENABLED)
+
 						cell.addEventListener('click', (e) => {
-						
+							console.log('yey')
 							el.availableMoves.forEach(pos => {
 								const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
 
@@ -73,7 +76,7 @@ export default class Game {
 
 								availableCell.addEventListener('click', (ev) => {
 									this.changeActivePlayer()
-									
+
 									const msg = O_MOVE_PIECE
 
 									msg.data.from = el.position

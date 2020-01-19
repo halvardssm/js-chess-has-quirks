@@ -92,7 +92,7 @@ wss.on('connection', (ws) => {
    * if a player now leaves, the game is aborted (player is not preplaced)
    */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		currentGame.playerW.send(JSON.stringify(S_YOUR_TURN))
+		currentGame.playerW.send(S_YOUR_TURN)
 		currentGame = new GameState(gameStatus.gamesInitialized++)
 	}
 
