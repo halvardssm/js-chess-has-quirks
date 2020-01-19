@@ -12,8 +12,8 @@ socket.onmessage = (incomingMsg) => {
 	switch (message.type) {
 		
 		case T_YOUR_TURN:
-			game.enableBoard()
-			
+			game.changeActivePlayer()
+			game.generateBoard(socket)
 			break
 
 		case T_BOARD:
@@ -25,7 +25,6 @@ socket.onmessage = (incomingMsg) => {
 			game.setPlayerType(message.data)
 			break
 	}
-
 }
 
 socket.onopen = function () {
