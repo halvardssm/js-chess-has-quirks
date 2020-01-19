@@ -68,7 +68,6 @@ export default class Game {
 						modifyClassName(cell, CLASS_ENABLED)
 
 						cell.addEventListener('click', (e) => {
-							console.log('yey')
 							el.availableMoves.forEach(pos => {
 								const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
 
