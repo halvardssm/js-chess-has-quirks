@@ -9,3 +9,5 @@ export const STATUS = {
 	turn:      'Your turn!',
 	waiting:   'Waiting for other player to make a move'
 }
+export const COOKIE_SECRET = 'cIsForCookie'
+export const COOKIE_VISITED = 'timesVisited'

@@ -7,7 +7,8 @@ const game = new Game(socket)
 
 socket.onmessage = (incomingMsg) => {
 	const message = JSON.parse(incomingMsg.data)
-	//set player type
+
+	// set player type
 	console.log(message)
 	switch (message.type) {
 		
@@ -41,7 +42,7 @@ socket.onopen = function () {
 	socket.send('{}')
 }
 
-//server sends a close event only if the game was aborted from some side
+// server sends a close event only if the game was aborted from some side
 socket.onclose = function() {
 	if (game.getWinner() === null) {
 		// game.setStatus(Status['aborted'])

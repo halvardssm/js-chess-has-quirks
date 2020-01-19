@@ -48,6 +48,18 @@
       { "enforceForClassMembers": true }
     ],
     "space-infix-ops": "error",
-    "semi-spacing": "error"
+    "semi-spacing": "error",
+    "spaced-comment": ["error", "always"],
+    "multiline-comment-style": ["error", "starred-block"],
+    "lines-around-comment": [
+      "error",
+      {
+        "beforeBlockComment": true,
+        "beforeLineComment": true,
+        "allowBlockStart": true,
+        "allowBlockEnd": true,
+        "allowClassStart": true
+      }
+    ]
   }
 }

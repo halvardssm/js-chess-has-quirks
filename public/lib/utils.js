@@ -2,10 +2,10 @@ import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE
 import { O_BOARD } from './messages.js'
 
 /**
- 	* @param {number} x
- 	* @param {number} y
- 	* @returns {ChessPiece} cp
- 	*/
+ * @param {number} x
+ * @param {number} y
+ * @returns {ChessPiece} cp
+ */
 export const pieceMapper = (x, y) => {
 	if (y === 7) {
 		return new ChessPiece(PIECES_ORDER[x], COLOUR.black, new Position(x, y))

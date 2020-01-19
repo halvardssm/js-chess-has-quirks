@@ -46,7 +46,8 @@ export class ChessPiece {
 		this.type = type
 		this.colour = colour
 		this.position = position
-		/**@type Position[] */
+
+		/** @type Position[] */
 		this.availableMoves = []
 	}
 
