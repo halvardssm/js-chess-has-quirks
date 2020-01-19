@@ -1,5 +1,4 @@
-import { ChessPiece, Position, TYPES, COLOUR, T_GAME_START, T_MOVE_PIECE, getDirection } from '../../public/lib/index.js'
-import { GameState } from './index.js'
+import { ChessPiece, Position, TYPES, getDirection } from '../../public/lib/index.js'
 
 /**
  * @param {ChessPiece[][]} board
@@ -10,7 +9,7 @@ export const getValidMoves = (board, piece) => {
 	/** @type {Position[]} */
 	const validMoves = []
 
-	/** @type {-1|1} */
+	/** @type {1 | -1} */
 	const direction = getDirection(piece)
 
 	const pieceProps = getPieceProps(piece)
@@ -19,14 +18,15 @@ export const getValidMoves = (board, piece) => {
 
 	if (pieceProps.knight) {
 		validateKnight(validationProps)
-		return validMoves
+		return validMoves	// Returns early because knights are special
 	}
+
 	if (pieceProps.fw) validateVertical(validationProps)
 
 	if (pieceProps.bw) {
-		validationProps.direction *= -1
-		validateVertical(validationProps)
-		validationProps.direction *= -1
+		validationProps.direction *= -1		// Reverse direction to make the piece go backwards
+		validateVertical(validationProps)	// Validate
+		validationProps.direction *= -1		// Revert direction back to normal
 	}
 
 	if (pieceProps.horisontal) validateHorisontal(validationProps)
@@ -60,7 +60,7 @@ const validateKnight = ({ board, piece, validMoves }) => {
 }
 
 /**
- * @param {{board: ChessPiece[][], piece: ChessPiece, direction: -1|1, validMoves: Position[], oneStep: boolean}} props
+ * @param {{board: ChessPiece[][], piece: ChessPiece, direction: 1 | -1, validMoves: Position[], oneStep: boolean}} props
  * @return {void}
  */
 const validateVertical = ({ board, piece, direction, validMoves, oneStep }) => {
@@ -97,7 +97,7 @@ const validateHorisontal = ({ board, piece, validMoves, oneStep }) => {
 }
 
 /**
- * @param {{board: ChessPiece[][], piece: ChessPiece, direction: -1|1, validMoves: Position[], oneStep: boolean}} props
+ * @param {{board: ChessPiece[][], piece: ChessPiece, direction: 1 | -1, validMoves: Position[], oneStep: boolean}} props
  * @return {void}
  */
 const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
@@ -170,6 +170,11 @@ const moveValidation = (piece, cell) => !cell
 	: (piece.colour !== cell.colour)
 
 
+/**
+ * @param {number} x 
+ * @param {number} y 
+ * @returns {boolean}
+ */
 const cellValidation = (x, y) => !(x < 0 || x > 7) && !(y < 0 || y > 7)
 
 /**
@@ -190,12 +195,12 @@ const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
  */
 const getPieceProps = (piece) => {
 	const propArr = {
-		fw:         false,
-		bw:         false,
+		fw: false,
+		bw: false,
 		horisontal: false,
-		diagonal:   false,
-		knight:     false,
-		oneStep:    false
+		diagonal: false,
+		knight: false,
+		oneStep: false
 	}
 
 	switch (piece.type) {

@@ -1,3 +1,4 @@
+/** Enum containing the different types of chess pieces */
 export const TYPES = {
 	pawn:   'PAWN',
 	rook:   'ROOK',
@@ -7,28 +8,40 @@ export const TYPES = {
 	king:   'KING'
 }
 
+/** Enum containing the two different colours of chess pieces */
 export const COLOUR = {
 	black: 'BLACK',
 	white: 'WHITE',
 }
 
+/**
+ * Class representing a pair of co-ordinates : (x, y)
+ * @property {number} x
+ * @property {number} y
+ */
 export class Position {
 	/**
-		 * @param {number} x 
-		 * @param {number} y 
-		 */
+	 * @param {number} x 
+	 * @param {number} y 
+	 */
 	constructor(x, y) {
 		this.x = x
 		this.y = y
 	}
 }
 
+/**
+ * Class representing a chess piece with a type, colour, and position
+ * @property {string} type
+ * @property {string} colour
+ * @property {Position} position
+ */
 export class ChessPiece {
 	/**
-		 * @param {string} type 
-		 * @param {string} colour 
-		 * @param {Position} position 
-		 */
+	 * @param {string} type 
+	 * @param {string} colour 
+	 * @param {Position} position 
+	 */
 	constructor(type, colour, position) {
 		this.type = type
 		this.colour = colour
@@ -53,6 +66,7 @@ export class ChessPiece {
 	}
 }
 
+/** The order in which pieces appear on the board */
 export const PIECES_ORDER = [
 	TYPES.rook,
 	TYPES.knight,
