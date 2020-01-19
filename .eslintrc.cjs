@@ -26,4 +26,4 @@ module.exports = {
 		'space-infix-ops': 'error',
 		'semi-spacing': 'error'
 	}
-};
+}

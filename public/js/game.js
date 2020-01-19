@@ -49,7 +49,7 @@ export default class Game {
 				const cell = document.createElement('div')
 				cell.className = `col ${counter++ % 2 ? 'white' : 'black'}`
 				cell.id = `cell-${x}${y}`
-				if(el !==null&&el!==undefined){
+				if(el !== null && el !== undefined){
 					cell.className += ' piece'
 					cell.addEventListener('click', (e) => {
 						

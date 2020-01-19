@@ -53,6 +53,9 @@ export class GameState {
 			.filter(Boolean)
 			.map(cp => {
 				const validMoves = getValidMoves(this.gameBoard, cp)
+				if(validMoves === undefined){
+					console.log('nooo')
+				}
 				console.log(validMoves)
 				cp.updateValidMoves(validMoves)
 				return cp
