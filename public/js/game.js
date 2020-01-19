@@ -40,11 +40,6 @@ export default class Game {
 		return this.winner
 	}
 
-	// only enable if it is the right player
-	enableBoard(){
-		this.changeActivePlayer()
-	}
-
 	generateBoard(ws) {
 		console.log('generating board')
 
@@ -77,6 +72,8 @@ export default class Game {
 								modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, availableCell.className.includes(CLASS_AVAILABLE_MOVE))
 
 								availableCell.addEventListener('click', (ev) => {
+									this.changeActivePlayer()
+									
 									const msg = O_MOVE_PIECE
 
 									msg.data.from = el.position
