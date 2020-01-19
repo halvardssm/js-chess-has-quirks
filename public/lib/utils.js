@@ -22,7 +22,7 @@ export const pieceMapper = (x, y) => {
  * @returns {ChessPiece[][]}
  */
 export const generateEmptyBoardArray = () => {
-	return Array(8).fill(null).map((y, i) => Array(8).fill(null).map((x, j) => pieceMapper(i, j)))
+	return Array(8).fill(null).map((x, i) => Array(8).fill(null).map((y, j) => pieceMapper(i, j)))
 }
 
 export const modifyClassName = (el, className, remove = false) => {

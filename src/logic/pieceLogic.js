@@ -190,12 +190,12 @@ const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
  */
 const getPieceProps = (piece) => {
 	const propArr = {
-		fw: false,
-		bw: false,
+		fw:         false,
+		bw:         false,
 		horisontal: false,
-		diagonal: false,
-		knight: false,
-		oneStep: false
+		diagonal:   false,
+		knight:     false,
+		oneStep:    false
 	}
 
 	switch (piece.type) {

@@ -1,4 +1,4 @@
-import { Position, O_MOVE_PIECE } from '../lib/index.js'
+import { Position, O_MOVE_PIECE, COLOUR } from '../lib/index.js'
 import { modifyClassName } from '../lib/index.js'
 
 const CLASS_AVAILABLE_MOVE = 'available-move'
@@ -8,6 +8,11 @@ export default class Game {
 		this.playerType = null
 		this.boardArray = null
 		this.winner = null
+		this.isActivePlayer = false
+	}
+
+	changeActivePlayer(){
+		this.isActivePlayer = !this.isActivePlayer
 	}
 
 	setPlayerType(playerType){
@@ -31,7 +36,7 @@ export default class Game {
 
 	// only enable if it is the right player
 	enableBoard(){
-
+		this.changeActivePlayer()
 	}
 
 	generateBoard(ws) {
@@ -40,45 +45,53 @@ export default class Game {
 		let counter = 0
 
 		const board = document.getElementById('board')
-		this.boardArray.forEach((arr, y) => {
+
+		while (board.firstChild) {
+			board.removeChild(board.firstChild)
+		}
+
+		this.boardArray.forEach((arr, x) => {
 
 			const row = document.createElement('div')
 			row.className = 'row'
 			
-			arr.forEach((el, x) => {
+			arr.forEach((el, y) => {
 				const cell = document.createElement('div')
-				cell.className = `col ${counter++ % 2 ? 'white' : 'black'}`
+				cell.className = `col ${counter++ % 2 ? COLOUR.white.toLowerCase() : COLOUR.black.toLowerCase()}`
 				cell.id = `cell-${x}${y}`
-				if(el !== null && el !== undefined){
+				if (el !== null && el !== undefined){
 					cell.className += ' piece'
-					cell.addEventListener('click', (e) => {
+
+					if (this.isActivePlayer){
+						cell.addEventListener('click', (e) => {
 						
-						el.availableMoves.forEach(pos => {
-							const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
+							el.availableMoves.forEach(pos => {
+								const availableCell = document.getElementById(`cell-${pos.x}${pos.y}`)
 
-							modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, availableCell.className.includes(CLASS_AVAILABLE_MOVE))
+								modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, availableCell.className.includes(CLASS_AVAILABLE_MOVE))
 
-							availableCell.addEventListener('click', (ev) => {
-								const msg = O_MOVE_PIECE
+								availableCell.addEventListener('click', (ev) => {
+									const msg = O_MOVE_PIECE
 
-								msg.data.from = el.position
-								msg.data.to = new Position(pos.x, pos.y)
-								ws.send(JSON.stringify(msg))
+									msg.data.from = el.position
+									msg.data.to = new Position(pos.x, pos.y)
+									ws.send(JSON.stringify(msg))
+								})
 							})
-						})
 
-						const availableCells = document.getElementsByClassName(CLASS_AVAILABLE_MOVE)
+							const availableCells = document.getElementsByClassName(CLASS_AVAILABLE_MOVE)
 						
-						for (let availableCell of availableCells) {
-							const pos = new Position(parseInt(availableCell.id.split('-').pop()[0]), parseInt(availableCell.id.split('-').pop()[1]))
+							for (let availableCell of availableCells) {
+								const pos = new Position(parseInt(availableCell.id.split('-').pop()[0]), parseInt(availableCell.id.split('-').pop()[1]))
 
-							const exist = el.availableMoves.find(elPos => elPos.x === pos.x && elPos.y === pos.y)
+								const exist = el.availableMoves.find(elPos => elPos.x === pos.x && elPos.y === pos.y)
 
-							if(!exist){
-								modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, true)
+								if (!exist){
+									modifyClassName(availableCell, CLASS_AVAILABLE_MOVE, true)
+								}
 							}
-						}
-					})
+						})
+					}
 
 					const svg = document.createElement('img')
 					svg.src = `assets/${el.type}_${el.colour}.svg`
