@@ -158,14 +158,14 @@ const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y
 			? pawnDiagonalValidation(piece, board[y][x])
 			: true
 	)
-	&& validateValidation(piece, board[y][x])
+	&& moveValidation(piece, board[y][x])
 
 /**
  * @param {ChessPiece} piece 
  * @param {null|ChessPiece} cell 
  * @return {boolean}
  */
-const validateValidation = (piece, cell) => !cell
+const moveValidation = (piece, cell) => !cell
 	? true
 	: (piece.colour !== cell.colour)
 
@@ -180,7 +180,7 @@ const cellValidation = (x, y) => !(x < 0 || x > 7) && !(y < 0 || y > 7)
 const pawnDiagonalValidation = (piece, cell) => (piece.type !== TYPES.pawn)
 	? true
 	: (!cell
-		? true
+		? false
 		: (piece.colour !== cell.colour)
 	)
 
