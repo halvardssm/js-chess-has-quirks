@@ -1,4 +1,4 @@
-import { Position, O_MOVE_PIECE, COLOUR, modifyClassName } from '../lib/index.js'
+import { Position, O_MOVE_PIECE, COLOUR, modifyClassName, setMessage, STATUS } from '../lib/index.js'
 
 const ID_BOARD = 'board'
 const ID_CELL = 'cell'
@@ -73,6 +73,8 @@ export default class Game {
 
 								availableCell.addEventListener('click', (ev) => {
 									this.changeActivePlayer()
+									setMessage(document, STATUS.waiting)
+									
 
 									const msg = O_MOVE_PIECE
 

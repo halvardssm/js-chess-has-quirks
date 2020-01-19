@@ -9,6 +9,13 @@
   max-width: 800px;
   width: 50%;
 }
+
+#message {
+  width: fit-content;
+  width: -moz-fit-content;
+  margin: 50px auto;
+}
+
 .board {
   border: 1px solid black;
 }

@@ -1,4 +1,4 @@
-import { T_MOVE_PIECE, T_GAME_START, T_PLAYER_TYPE, T_BOARD, WEB_SOCKET_URL, COLOUR, T_YOUR_TURN } from '../lib/index.js'
+import { T_PLAYER_TYPE, T_BOARD, WEB_SOCKET_URL, T_YOUR_TURN, setMessage, STATUS, T_GAME_OVER, T_GAME_ABORTED } from '../lib/index.js'
 import Game from './game.js'
 
 console.log('setup initiated')
@@ -14,6 +14,7 @@ socket.onmessage = (incomingMsg) => {
 		case T_YOUR_TURN:
 			game.changeActivePlayer()
 			game.generateBoard(socket)
+			setMessage(document, STATUS.turn)
 			break
 
 		case T_BOARD:
@@ -23,6 +24,15 @@ socket.onmessage = (incomingMsg) => {
 			break
 		case T_PLAYER_TYPE:
 			game.setPlayerType(message.data)
+			setMessage(document, STATUS.onePlayer)
+			break
+
+		case T_GAME_OVER:
+			setMessage(document, message.data === game.playerType ? STATUS.gameWon : STATUS.gameLost)
+
+			break
+		case T_GAME_ABORTED:
+			setMessage(document, STATUS.aborted)
 			break
 	}
 }

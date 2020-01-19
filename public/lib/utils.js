@@ -50,3 +50,8 @@ export const sendUpdatedBoard = (game) => {
  * @return {-1|1}
  */
 export const getDirection = (piece) => piece.colour === COLOUR.white ? 1 : -1
+
+export const setMessage = (document, message) => {
+	const msgEl = document.getElementById('message')
+	msgEl.innerText = message
+}

@@ -4,7 +4,8 @@ export const WEB_SOCKET_URL = `${WEB_SOCKET_BASE_URL}${PORT}`
 export const STATUS = {
 	gameWon:   'Congratulations! You won!',
 	gameLost:  'Game over. You lost!',
-	playAgain: ' <a href=\'/play\'>Play again!</a>'
+	aborted:   'Your gaming partner is no longer available, game aborted.',
+	onePlayer: 'Waiting for player 2',
+	turn:      'Your turn!',
+	waiting:   'Waiting for other player to make a move'
 }
-STATUS.aborted = 'Your gaming partner is no longer available, game aborted. ' + STATUS['playAgain']
-	

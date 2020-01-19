@@ -15,8 +15,9 @@ export const O_BOARD = {
 /*
    * Server to client: abort game (e.g. if second player exited the game)
    */
+export const T_GAME_ABORTED = 'GAME-ABORTED'
 export const O_GAME_ABORTED = {
-	type: 'GAME-ABORTED'
+	type: T_GAME_ABORTED
 }
 export const S_GAME_ABORTED = JSON.stringify(O_GAME_ABORTED)
 
