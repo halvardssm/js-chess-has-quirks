@@ -42,8 +42,6 @@ export default class Game {
 	}
 
 	generateBoard(ws) {
-		console.log('generating board')
-
 		let counter = 0
 
 		const board = document.getElementById(ID_BOARD)

@@ -1,4 +1,4 @@
-import { COLOUR, ChessPiece, generateEmptyBoardArray, Position } from '../../public/lib/index.js'
+import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, T_MOVE_PIECE, sendUpdatedBoard, S_YOUR_TURN } from '../../public/lib/index.js'
 import { getValidMoves } from './index.js'
 
 /**
@@ -27,7 +27,7 @@ export class GameState {
 		/** @type {WebSocket} */
 		this.winner = null
 
-		this.initValidMoves()
+		this.setValidMoves()
 	}
 
 	/**
@@ -44,9 +44,7 @@ export class GameState {
 	 * @throws {Error} Game already full
 	 */
 	addPlayer(player) {
-		if (this.playerW && this.playerB) return new Error('Invalid call to addPlayer, Game full')
-
-		if (this.playerW === null) {
+		if (!this.playerW) {
 			this.playerW = player
 			return COLOUR.white
 		} else {
@@ -65,6 +63,7 @@ export class GameState {
 		this.gameBoard[start.x][start.y] = null
 		piece.move(target)
 		this.gameBoard[target.x][target.y] = piece
+		this.setValidMoves()
 	}
 
 	/** @returns {WebSocket} The Winner */
@@ -81,11 +80,28 @@ export class GameState {
 	 * Initialises the valid moves of each piece on the game board on game start
 	 * @returns {void}
 	 */
-	initValidMoves() {
-		console.log('initValidMoves')
+	setValidMoves() {
 		this.gameBoard.map(arr => arr
 			.filter(Boolean)
 			.map(cp => cp.updateValidMoves(getValidMoves(this.gameBoard, cp)))
 		)
+	}
+
+	/**
+	 * @param {object} message
+	 * @param {WebSocket} connection
+	 */
+	messageHandler(message, connection)  {
+		let currentPlayerIsWhite = this.playerW === connection
+
+		switch (message.type) {
+			case T_MOVE_PIECE:
+				this.movePiece(message.data.from, message.data.to)
+
+				sendUpdatedBoard(this)
+
+				currentPlayerIsWhite ? this.playerB.send(S_YOUR_TURN) : this.playerW.send(S_YOUR_TURN)
+				break
+		}
 	}
 }

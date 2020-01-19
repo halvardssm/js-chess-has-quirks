@@ -37,29 +37,7 @@ export const modifyClassName = (el, className, remove = false) => {
 	el.className = classArray.join(' ')
 }
 
-/**
- * @param {import('../../src/logic/index.js').GameState} gameObject 
- * @param {object} message
- * @param {WebSocket} connection
- */
-export const playerTurn = (gameObject, message, connection) => {
-
-	let game = gameObject
-
-	let currentPlayerIsWhite = game.playerW === connection
-
-	switch (message.type) {
-		case T_MOVE_PIECE:
-			game.movePiece(message.data.from, message.data.to)
-
-			sendUpdatedBoard(game)
-
-			currentPlayerIsWhite ? game.playerB.send(S_YOUR_TURN) : game.playerW.send(S_YOUR_TURN)
-			break
-	}
-}
-
-const sendUpdatedBoard = (game) => {
+export const sendUpdatedBoard = (game) => {
 	const boardMessage = O_BOARD
 	boardMessage.data = game.getBoard()
 
