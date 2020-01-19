@@ -15,23 +15,23 @@ export const getValidMoves = (board, piece) => {
 
 	const pieceProps = getPieceProps(piece)
 
-	const moveProps = { board, piece, direction, validMoves, oneStep: pieceProps.oneStep }
+	const validationProps = { board, piece, direction, validMoves, oneStep: pieceProps.oneStep }
 
 	if (pieceProps.knight) {
-		moveKnight(moveProps)
+		validateKnight(validationProps)
 		return validMoves
 	}
-	if (pieceProps.fw) moveVertical(moveProps)
+	if (pieceProps.fw) validateVertical(validationProps)
 
 	if (pieceProps.bw) {
-		moveProps.direction *= -1
-		moveVertical(moveProps)
-		moveProps.direction *= -1
+		validationProps.direction *= -1
+		validateVertical(validationProps)
+		validationProps.direction *= -1
 	}
 
-	if (pieceProps.horisontal) moveHorisontal(moveProps)
+	if (pieceProps.horisontal) validateHorisontal(validationProps)
 
-	if (pieceProps.diagonal) moveDiagonal(moveProps)
+	if (pieceProps.diagonal) validateDiagonal(validationProps)
 
 	return validMoves
 }
@@ -40,7 +40,7 @@ export const getValidMoves = (board, piece) => {
 * @param {{board: ChessPiece[][], piece: ChessPiece, validMoves: Position[]}} props
  * @return {void}
  */
-const moveKnight = ({ board, piece, validMoves }) => {
+const validateKnight = ({ board, piece, validMoves }) => {
 	const possibleMoves = [
 		{ x: -1, y: 2 },
 		{ x: 1, y: 2 },
@@ -63,7 +63,7 @@ const moveKnight = ({ board, piece, validMoves }) => {
  * @param {{board: ChessPiece[][], piece: ChessPiece, direction: -1|1, validMoves: Position[], oneStep: boolean}} props
  * @return {void}
  */
-const moveVertical = ({ board, piece, direction, validMoves, oneStep }) => {
+const validateVertical = ({ board, piece, direction, validMoves, oneStep }) => {
 	const dx = piece.position.x
 	let dy = piece.position.y + direction
 
@@ -80,7 +80,7 @@ const moveVertical = ({ board, piece, direction, validMoves, oneStep }) => {
  * @param {{board: ChessPiece[][], piece: ChessPiece, validMoves: Position[], oneStep: boolean}} props
  * @return {void}
  */
-const moveHorisontal = ({ board, piece, validMoves, oneStep }) => {
+const validateHorisontal = ({ board, piece, validMoves, oneStep }) => {
 	let px = piece.position.x + 1
 	let nx = piece.position.x - 1
 	const dy = piece.position.y
@@ -100,7 +100,7 @@ const moveHorisontal = ({ board, piece, validMoves, oneStep }) => {
  * @param {{board: ChessPiece[][], piece: ChessPiece, direction: -1|1, validMoves: Position[], oneStep: boolean}} props
  * @return {void}
  */
-const moveDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
+const validateDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 
 	//p: forward, n: backwards, l: left, r: right
 	//fw-left
@@ -158,14 +158,14 @@ const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y
 			? pawnDiagonalValidation(piece, board[y][x])
 			: true
 	)
-	&& moveValidation(piece, board[y][x])
+	&& validateValidation(piece, board[y][x])
 
 /**
  * @param {ChessPiece} piece 
  * @param {null|ChessPiece} cell 
  * @return {boolean}
  */
-const moveValidation = (piece, cell) => !cell
+const validateValidation = (piece, cell) => !cell
 	? true
 	: (piece.colour !== cell.colour)
 
