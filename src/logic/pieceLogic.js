@@ -138,13 +138,13 @@ const moveDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
 			pyr += direction
 
 		//dw-left
-		} else if(validate(piece, board, nxl, nyl,true)){
+		} else if(validate(piece, board, nxl, nyl, true)){
 			validMoves.push(new Position(nxl, nyl))
 			nxl--
 			nyl -= direction
 
 		//dw-right
-		} else if(validate(piece, board, nxr, nyr,true)){
+		} else if(validate(piece, board, nxr, nyr, true)){
 			validMoves.push(new Position(nxr, nyr))
 			nxr++
 			nyr -= direction
@@ -162,7 +162,7 @@ const moveDiagonal = ({ board, piece, direction, validMoves, oneStep }) => {
  * @param {number} y 
  * @return {boolean}
  */
-const validate = (piece, board, x, y,isDiagonal=false) => cellValidation(x, y) && (isDiagonal?pawnDiagonalValidation(piece,board[x][y]):true) && moveValidation(piece, board[x][y])
+const validate = (piece, board, x, y, isDiagonal = false) => cellValidation(x, y) && (isDiagonal ? pawnDiagonalValidation(piece, board[x][y]) : true) && moveValidation(piece, board[x][y])
 
 /**
  * @param {ChessPiece} piece 
