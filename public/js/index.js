@@ -26,6 +26,7 @@ socket.onmessage = (incomingMsg) => {
 		case T_PLAYER_TYPE:
 			game.setPlayerType(message.data)
 			setMessage(document, STATUS.onePlayer)
+			document.getElementById('player-type').innerText = 'You play as ' + message.data.toLowerCase()
 			break
 
 		case T_GAME_OVER:

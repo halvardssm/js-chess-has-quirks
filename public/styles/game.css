@@ -16,6 +16,13 @@
   margin: 50px auto;
 }
 
+.center-align {
+  width: fit-content;
+  width: -moz-fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .board {
   border: 1px solid black;
 }
