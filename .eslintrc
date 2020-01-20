@@ -12,26 +12,72 @@
     "indent": [
       "error",
       "tab",
-      { "SwitchCase": 1, "ObjectExpression": "first" }
+      {
+        "SwitchCase": 1,
+        "ObjectExpression": "first"
+      }
     ],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"],
-    "comma-spacing": ["error", { "before": false, "after": true }],
-    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "arrow-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
     "key-spacing": [
       "error",
-      { "afterColon": true, "mode": "strict", "align": "value" }
+      {
+        "afterColon": true,
+        "mode": "strict",
+        "align": "colon"
+      }
     ],
-    "keyword-spacing": ["error", { "before": true, "after": true }],
-    "eol-last": ["error", "always"],
-    "no-undef": ["off"],
-    "no-unused-vars": ["warn"],
-    "no-mixed-spaces-and-tabs": ["error"],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "no-undef": [
+      "off"
+    ],
+    "no-unused-vars": [
+      "warn"
+    ],
+    "no-mixed-spaces-and-tabs": [
+      "error"
+    ],
     "object-curly-spacing": [
       "error",
       "always",
-      { "arraysInObjects": false, "objectsInObjects": false }
+      {
+        "arraysInObjects": false,
+        "objectsInObjects": false
+      }
     ],
     "array-bracket-spacing": [
       "error",
@@ -45,12 +91,20 @@
     "computed-property-spacing": [
       "error",
       "never",
-      { "enforceForClassMembers": true }
+      {
+        "enforceForClassMembers": true
+      }
     ],
     "space-infix-ops": "error",
     "semi-spacing": "error",
-    "spaced-comment": ["error", "always"],
-    "multiline-comment-style": ["error", "starred-block"],
+    "spaced-comment": [
+      "error",
+      "always"
+    ],
+    "multiline-comment-style": [
+      "error",
+      "starred-block"
+    ],
     "lines-around-comment": [
       "error",
       {

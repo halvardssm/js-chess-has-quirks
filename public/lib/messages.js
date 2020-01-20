@@ -46,7 +46,7 @@ export const O_MOVE_PIECE = {
 	type: T_MOVE_PIECE,
 	data: {
 		from: null,
-		to:   null
+		to  : null
 	}
 }
 export const T_YOUR_TURN = 'YOUR-TURN'

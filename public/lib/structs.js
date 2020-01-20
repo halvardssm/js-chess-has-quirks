@@ -1,11 +1,11 @@
 /** Enum containing the different types of chess pieces */
 export const TYPES = {
-	pawn:   'PAWN',
-	rook:   'ROOK',
+	pawn  : 'PAWN',
+	rook  : 'ROOK',
 	knight: 'KNIGHT',
 	bishop: 'BISHOP',
-	queen:  'QUEEN',
-	king:   'KING'
+	queen : 'QUEEN',
+	king  : 'KING'
 }
 
 /** Enum containing the two different colours of chess pieces */
@@ -78,3 +78,28 @@ export const PIECES_ORDER = [
 	TYPES.knight,
 	TYPES.rook
 ]
+
+export class Player {
+
+	/**
+	 * @param {WebSocket} id 
+	 * @param {string} colour 
+	 */
+	constructor(id, colour) {
+		this.id = id
+		this.colour = colour
+
+		/** @type ChessPiece[] */
+		this.capturedPieces = []
+	}
+
+	/** @param {ChessPiece} piece */
+	capturePiece(piece) {
+		this.capturedPieces.push(piece)
+	}
+
+	hasCapturedKing() {
+		this.capturedPieces.map(cp => { if (cp.type === TYPES.king) return true } )
+		return false
+	}
+}

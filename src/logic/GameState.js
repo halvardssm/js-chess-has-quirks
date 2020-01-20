@@ -1,4 +1,4 @@
-import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, T_MOVE_PIECE, sendUpdatedBoard, S_YOUR_TURN } from '../../public/lib/index.js'
+import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, T_MOVE_PIECE, sendUpdatedBoard, S_YOUR_TURN, Player } from '../../public/lib/index.js'
 import { getValidMoves } from './index.js'
 
 /**
@@ -15,16 +15,16 @@ export class GameState {
 	constructor(gameId) {
 		this.id = gameId
 
-		/** @type {WebSocket} */
+		/** @type {Player} */
 		this.playerW = null
 
-		/** @type {WebSocket} */
+		/** @type {Player} */
 		this.playerB = null
 
 		/** @type ChessPiece[][] */
 		this.gameBoard = generateEmptyBoardArray()
 
-		/** @type {WebSocket} */
+		/** @type {Player} */
 		this.winner = null
 
 		this.setValidMoves()
@@ -35,20 +35,20 @@ export class GameState {
 	 * @returns {boolean}
 	 */
 	hasTwoConnectedPlayers() {
-		return this.playerB !== null
+		return this.playerB.id !== null
 	}
 
 	/**
 	 * If the current game is not full, adds the given player to the game
-	 * @param {WebSocket} player 
+	 * @param {WebSocket} playerId
 	 * @throws {Error} Game already full
 	 */
-	addPlayer(player) {
+	addPlayer(playerId) {
 		if (!this.playerW) {
-			this.playerW = player
+			this.playerW = new Player(playerId, COLOUR.white)
 			return COLOUR.white
 		} else {
-			this.playerB = player
+			this.playerB = new Player(playerId, COLOUR.black)
 			return COLOUR.black
 		}
 	}
@@ -60,15 +60,21 @@ export class GameState {
 	 */
 	movePiece(start, target) {
 		// console.log(this.gameBoard[start.x][start.y])
-		let piece = new ChessPiece(
-			this.gameBoard[start.x][start.y].type,
-			this.gameBoard[start.x][start.y].colour,
-			this.gameBoard[start.x][start.y].position
-		)
-
+		let piece = this.gameBoard[start.x][start.y]
 		this.gameBoard[start.x][start.y] = null
-		piece.move(target)
+
+		let cell = this.gameBoard[target.x][target.y]
 		this.gameBoard[target.x][target.y] = piece
+		piece.move(target)
+
+		if (cell) {
+			(cell.colour === COLOUR.white) 
+				? this.playerW.capturePiece(cell)
+				: this.playerB.capturePiece(cell)
+		}
+
+		this.checkWinStatus() // do something with it
+		
 		this.setValidMoves()
 	}
 
@@ -80,6 +86,11 @@ export class GameState {
 	/** @returns {ChessPiece[][]} The Gameboard array */
 	getBoard() {
 		return this.gameBoard
+	}
+
+	checkWinStatus() {
+		if (this.playerW.hasCapturedKing()) this.winner = this.playerW
+		else if (this.playerB.hasCapturedKing()) this.winner = this.playerB
 	}
 
 	/**
@@ -102,6 +113,7 @@ export class GameState {
 
 		switch (message.type) {
 			case T_MOVE_PIECE:
+				console.log(message.data)
 				this.movePiece(message.data.from, message.data.to)
 
 				sendUpdatedBoard(this)

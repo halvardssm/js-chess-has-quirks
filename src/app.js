@@ -24,15 +24,13 @@ router.get('/play', (req, res) => {
 router.get('/', (req, res) => {
 	let visited = req.cookies[COOKIE_VISITED]
 
-	if (!visited){
-		res.cookie(COOKIE_VISITED, 1)
-	} else {
-		res.cookie(COOKIE_VISITED, ++visited)
-	}
+	!visited
+		? res.cookie(COOKIE_VISITED, 1) 
+		: res.cookie(COOKIE_VISITED, ++visited)
 
 	res.render('splash.ejs', {
-		gamesPlayed:  gameStatus.gamesPlayed,
-		gamesWon:     gameStatus.gamesWon,
+		gamesPlayed : gameStatus.gamesPlayed,
+		gamesWon    : gameStatus.gamesWon,
 		timesVisited: visited,
 	})
 })
