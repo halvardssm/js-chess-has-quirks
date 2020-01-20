@@ -1,4 +1,4 @@
-# Game in JS
+# Chess has Quirks
 
 1. To run: `npm start`
 
