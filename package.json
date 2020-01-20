@@ -1,7 +1,6 @@
 {
   "name": "chess-has-quirks",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
