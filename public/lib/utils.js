@@ -1,4 +1,4 @@
-import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES, T_GAME_START, T_MOVE_PIECE, S_YOUR_TURN } from './index.js'
+import { ChessPiece, Position, PIECES_ORDER, COLOUR, TYPES } from './index.js'
 import { O_BOARD } from './messages.js'
 
 /**

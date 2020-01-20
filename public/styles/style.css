@@ -23,3 +23,24 @@
 .title::after {
   content: url("../assets/QUEEN_BLACK.svg");
 }
+
+.title:not(:fullscreen) {
+  color: black;
+}
+.title:fullscreen {
+  color: orange;
+}
+
+@media (min-width: 699px) {
+  #no-display {
+    display: none;
+    margin: 5px auto;
+    width: fit-content;
+    width: -moz-fit-content;
+  }
+}
+@media (max-width: 700px) {
+  #root {
+    display: none;
+  }
+}

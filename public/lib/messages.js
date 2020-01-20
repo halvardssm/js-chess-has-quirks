@@ -1,10 +1,4 @@
 import { COLOUR } from './structs.js'
-	
-export const T_GAME_START = 'GAME-START'
-export const O_GAME_START = {
-	type: T_GAME_START,
-}
-export const S_GAME_START = JSON.stringify(O_GAME_START)
 
 export const T_BOARD = 'BOARD'
 export const O_BOARD = {
