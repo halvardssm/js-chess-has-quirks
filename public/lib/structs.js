@@ -99,7 +99,6 @@ export class Player {
 	}
 
 	hasCapturedKing() {
-		this.capturedPieces.map(cp => { if (cp.type === TYPES.king) return true } )
-		return false
+		return !!this.capturedPieces.find(cp => cp.type === TYPES.king)
 	}
 }

@@ -7,7 +7,8 @@ export const STATUS = {
 	aborted  : 'Your gaming partner is no longer available, game aborted.',
 	onePlayer: 'Waiting for player 2',
 	turn     : 'Your turn!',
-	waiting  : 'Waiting for other player to make a move'
+	waiting  : 'Waiting for other player to make a move',
+	playAgain: '<a href="/play>Play again?</a>'
 }
 export const COOKIE_SECRET = 'cIsForCookie'
 export const COOKIE_VISITED = 'timesVisited'

@@ -66,20 +66,20 @@ wss.on('connection', (ws) => {
 	 */
 	let con = ws
 	con.id = connectionID++
-	let playerType = currentGame.addPlayer(con) // Returns W or B
+	let player = currentGame.addPlayer(con) // Returns W or B
 	websockets[con.id] = currentGame
 
 	console.log(
 		'Player %s placed in game %s as %s',
 		con.id,
 		currentGame.id,
-		playerType
+		player.colour
 	)
 
 	/*
 	 * inform the client about its assigned player type
 	 */
-	con.send(playerType === COLOUR.white ? S_PLAYER_W : S_PLAYER_B)
+	con.send(player.colour === COLOUR.white ? S_PLAYER_W : S_PLAYER_B)
 
 	const boardMsg = O_BOARD
 	boardMsg.data = currentGame.getBoard()
@@ -92,7 +92,7 @@ wss.on('connection', (ws) => {
 	 * if a player now leaves, the game is aborted (player is not preplaced)
 	 */
 	if (currentGame.hasTwoConnectedPlayers()) {
-		currentGame.playerW.send(S_YOUR_TURN)
+		currentGame.playerW.id.send(S_YOUR_TURN)
 		currentGame = new GameState(gameStatus.gamesInitialized++)
 	}
 

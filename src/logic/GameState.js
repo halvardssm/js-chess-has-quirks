@@ -1,4 +1,4 @@
-import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, T_MOVE_PIECE, sendUpdatedBoard, S_YOUR_TURN, Player } from '../../public/lib/index.js'
+import { COLOUR, ChessPiece, generateEmptyBoardArray, Position, T_MOVE_PIECE, sendUpdatedBoard, S_YOUR_TURN, Player, O_GAME_OVER } from '../../public/lib/index.js'
 import { getValidMoves } from './index.js'
 
 /**
@@ -35,7 +35,7 @@ export class GameState {
 	 * @returns {boolean}
 	 */
 	hasTwoConnectedPlayers() {
-		return this.playerB.id !== null
+		return this.playerB !== null
 	}
 
 	/**
@@ -46,10 +46,10 @@ export class GameState {
 	addPlayer(playerId) {
 		if (!this.playerW) {
 			this.playerW = new Player(playerId, COLOUR.white)
-			return COLOUR.white
+			return this.playerW
 		} else {
 			this.playerB = new Player(playerId, COLOUR.black)
-			return COLOUR.black
+			return this.playerB
 		}
 	}
 
@@ -69,16 +69,25 @@ export class GameState {
 
 		if (cell) {
 			(cell.colour === COLOUR.white) 
-				? this.playerW.capturePiece(cell)
-				: this.playerB.capturePiece(cell)
+				? this.playerB.capturePiece(cell)
+				: this.playerW.capturePiece(cell)
 		}
 
-		this.checkWinStatus() // do something with it
-		
-		this.setValidMoves()
+		this.getWinStatus()
+			? this.endGame()
+			: this.setValidMoves()
+	}
+	
+	endGame() {
+		const message = O_GAME_OVER
+		message.data = this.winner
+		const msgString = JSON.stringify(message)
+
+		this.playerW.id.send(msgString)
+		this.playerB.id.send(msgString)
 	}
 
-	/** @returns {WebSocket} The Winner */
+	/** @returns {Player} The Winner */
 	getWinner() {
 		return this.winner
 	}
@@ -88,9 +97,10 @@ export class GameState {
 		return this.gameBoard
 	}
 
-	checkWinStatus() {
+	getWinStatus() {
 		if (this.playerW.hasCapturedKing()) this.winner = this.playerW
 		else if (this.playerB.hasCapturedKing()) this.winner = this.playerB
+		return this.winner
 	}
 
 	/**
@@ -109,16 +119,15 @@ export class GameState {
 	 * @param {WebSocket} connection
 	 */
 	messageHandler(message, connection)  {
-		let currentPlayerIsWhite = this.playerW === connection
+		let currentPlayerIsWhite = this.playerW.id === connection
 
 		switch (message.type) {
 			case T_MOVE_PIECE:
-				console.log(message.data)
 				this.movePiece(message.data.from, message.data.to)
 
 				sendUpdatedBoard(this)
 
-				currentPlayerIsWhite ? this.playerB.send(S_YOUR_TURN) : this.playerW.send(S_YOUR_TURN)
+				currentPlayerIsWhite ? this.playerB.id.send(S_YOUR_TURN) : this.playerW.id.send(S_YOUR_TURN)
 				break
 		}
 	}

@@ -41,8 +41,8 @@ export const sendUpdatedBoard = (game) => {
 	const boardMessage = O_BOARD
 	boardMessage.data = game.getBoard()
 
-	game.playerW.send(JSON.stringify(boardMessage))
-	game.playerB.send(JSON.stringify(boardMessage))
+	game.playerW.id.send(JSON.stringify(boardMessage))
+	game.playerB.id.send(JSON.stringify(boardMessage))
 }
 
 /**
@@ -53,5 +53,5 @@ export const getDirection = (piece) => piece.colour === COLOUR.white ? 1 : -1
 
 export const setMessage = (document, message) => {
 	const msgEl = document.getElementById('message')
-	msgEl.innerText = message
+	msgEl.innerHTML = message
 }

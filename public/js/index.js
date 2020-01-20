@@ -29,8 +29,8 @@ socket.onmessage = (incomingMsg) => {
 			break
 
 		case T_GAME_OVER:
-			setMessage(document, message.data === game.playerType ? STATUS.gameWon : STATUS.gameLost)
-
+			setMessage(document, message.data.colour === game.playerType ? STATUS.gameWon : STATUS.gameLost)
+			game.socket.close()
 			break
 		case T_GAME_ABORTED:
 			setMessage(document, STATUS.aborted)
@@ -38,15 +38,16 @@ socket.onmessage = (incomingMsg) => {
 	}
 }
 
-socket.onopen = function () {
+socket.onopen =  () => {
 	socket.send('{}')
 }
 
 // server sends a close event only if the game was aborted from some side
-socket.onclose = function() {
+socket.onclose = (code, message) => {
+	console.log(code, message)
 	if (game.getWinner() === null) {
 		// game.setStatus(Status['aborted'])
 	}
 }
 
-socket.onerror = function () { }
+socket.onerror =  () => { }
